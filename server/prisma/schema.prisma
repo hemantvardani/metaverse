@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  uuid  String @default(uuid()) @unique
+  firstName String
+  lastName String
+  pwdHash String
+  userName String @unique
+  role Role
+  spaces Space[]
+  avatarId String?
+  avatar Avatar? @relation(fields: [avatarId],references: [uuid])
+}
+
+model Map {
+  uuid String @default(uuid()) @unique
+  title String 
+  description String
+  img String
+  dimension Int[] @default([100,100])
+  spaces Space[]
+  mapElementMap ElementMapMapping[]
+}
+
+model ElementMapMapping {
+  uuid String @default(uuid()) @unique
+  mapId String
+  map Map @relation(fields: [mapId], references: [uuid])
+  x String
+  y String
+  elementId String
+  element Element @relation(fields: [elementId], references: [uuid])
+
+}
+
+model Space {
+  uuid String @default(uuid()) @unique
+  spaceName String
+  mapId String
+  map Map @relation(fields: [mapId], references: [uuid])
+  userId String
+  user User @relation(fields: [userId], references: [uuid])
+  spaceElementMap ElementSpaceMapping[]
+}
+
+model Element {
+  uuid String @default(uuid()) @unique
+  title String
+  width Int
+  height Int
+  static Boolean @default(true)
+  img String
+  elementSpaceMap ElementSpaceMapping[]
+  elementMapMap ElementMapMapping[]
+}
+
+model ElementSpaceMapping {
+  uuid String @default(uuid()) @unique
+  elementId String
+  element Element @relation(fields: [elementId], references: [uuid])
+  x String
+  y String
+  spaceId String
+  space Space @relation(fields: [spaceId], references: [uuid])
+}
+
+model Avatar {
+  uuid String @default(uuid()) @unique
+  title String
+  img String
+  user User[]
+}
+  
+enum Role {
+  PLAYER
+  ADMIN
+}
+
+// remaining Task here
+// then web socket thing re-watch
