@@ -19,7 +19,7 @@ model User {
   lastName String
   pwdHash String
   userName String @unique
-  role Role
+  role Role @default(PLAYER)
   spaces Space[]
   avatarId String?
   avatar Avatar? @relation(fields: [avatarId],references: [uuid])
