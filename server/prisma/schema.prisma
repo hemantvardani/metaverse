@@ -30,7 +30,8 @@ model Map {
   title String 
   description String
   img String
-  dimension Int[] @default([100,100])
+  height Int @default(100)
+  width Int @default(100)
   spaces Space[]
   mapElementMap ElementMapMapping[]
 }
