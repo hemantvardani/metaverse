@@ -1,13 +1,6 @@
 // before writing api -> writing test
-// import { Axios } from "xios";
+ 
 const { Axios } = require("axios");
-
-test("h", () => {
-  expect(1 == 1).toBe(true);
-  expect(1 == 2).toBe(true);
-});
-
-// test("h",()=>{expect(1==1).toBe(true)})
 
 const BACKEND_URL = process.env.BACKEND_BASE_URL;
 
@@ -638,6 +631,7 @@ describe("create a Space", () => {
   let elementId1;
   let elementId2;
   let mapId;
+  let availableMaps;
 
   beforeAll(
     "beforeAll : signup, signin as admin and player, create element and map as admin",
@@ -752,9 +746,54 @@ describe("create a Space", () => {
       expect(res.status).toBe(200);
       expect(res.response).toHaveProperty("id");
       mapId = res.response.id;
+
+      res = await Axios.get(
+        `${BACKEND_URL}/api/v1/map` 
+      );
+
+      expect(res.status).toBe(200);
+      expect(Array.isArray(res.response.maps)).toBe(true);
+      
+      availableMaps=res.response;
+
     }
   );
 
-  // get list of maps available -> create a space
-  // get list of space and check
+  test("Create a space -> check if space is created or not ", async()=>{
+    let createdSpaceId;
+
+    beforeAll("create a space", async ()=>{
+      let createSpacePayload={mapId};
+
+      res = await Axios.post(
+        `${BACKEND_URL}/api/v1/space/create`,
+        createSpacePayload,
+        { header: { authorization: `bearer ${userToken}` } }
+      );
+
+      expect(res.status).toBe(200);
+      expect(res.response).toHaveProperty('spaceId')
+      createdSpaceId=res.response.spaceId;
+    })
+
+    test("get list of spaces and check", async ()=>{
+
+      let res = await Axios.get(
+        `${BACKEND_URL}/api/v1/space`
+      );
+
+      expect(res.status).toBe(200);
+      expect(Array.isArray(res.response.spaces)).toBe(true);
+      expect((res.response.spaces).some(space=>space.id=spaceId)).toBe(true);
+
+
+      // also check - delete the space
+    })
+
+
+  })
 });
+
+
+
+// get space info

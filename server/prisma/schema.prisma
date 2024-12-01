@@ -42,6 +42,7 @@ model ElementMapMapping {
   map Map @relation(fields: [mapId], references: [uuid])
   x String
   y String
+  title String
   elementId String
   element Element @relation(fields: [elementId], references: [uuid])
 
@@ -49,7 +50,7 @@ model ElementMapMapping {
 
 model Space {
   uuid String @default(uuid()) @unique
-  spaceName String
+  title String
   mapId String
   map Map @relation(fields: [mapId], references: [uuid])
   userId String
