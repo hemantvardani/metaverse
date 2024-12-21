@@ -19,7 +19,7 @@ model User {
   lastName String
   pwdHash String
   userName String @unique
-  role Role @default(PLAYER)
+  role ERole @default(PLAYER)
   spaces Space[]
   avatarId String?
   avatar Avatar? @relation(fields: [avatarId],references: [uuid])
@@ -33,20 +33,21 @@ model Map {
   height Int @default(100)
   width Int @default(100)
   spaces Space[]
-  mapElementMap ElementMapMapping[]
+  defaultElementsMapping ElementMapping[]
+   
 }
 
-model ElementMapMapping {
-  uuid String @default(uuid()) @unique
-  mapId String
-  map Map @relation(fields: [mapId], references: [uuid])
-  x String
-  y String
-  title String
-  elementId String
-  element Element @relation(fields: [elementId], references: [uuid])
+// model ElementMapMapping {
+//   uuid String @default(uuid()) @unique
+//   mapId String
+//   map Map @relation(fields: [mapId], references: [uuid])
+//   x String
+//   y String
+//   title String
+//   elementId String
+//   element Element @relation(fields: [elementId], references: [uuid])
 
-}
+// }
 
 model Space {
   uuid String @default(uuid()) @unique
@@ -55,7 +56,8 @@ model Space {
   map Map @relation(fields: [mapId], references: [uuid])
   userId String
   user User @relation(fields: [userId], references: [uuid])
-  spaceElementMap ElementSpaceMapping[]
+  // spaceElementMap ElementSpaceMapping[]
+  elementsMapping ElementMapping[]
 }
 
 model Element {
@@ -65,18 +67,34 @@ model Element {
   height Int
   static Boolean @default(true)
   img String
-  elementSpaceMap ElementSpaceMapping[]
-  elementMapMap ElementMapMapping[]
+  // elementSpaceMap ElementSpaceMapping[]
+  // elementMapMap ElementMapMapping[]
+  elementMapping ElementMapping[]
 }
 
-model ElementSpaceMapping {
+// model ElementSpaceMapping {
+//   uuid String @default(uuid()) @unique
+//   elementId String
+//   element Element @relation(fields: [elementId], references: [uuid])
+//   x String
+//   y String
+//   spaceId String
+//   space Space @relation(fields: [spaceId], references: [uuid])
+// }
+
+model ElementMapping {
   uuid String @default(uuid()) @unique
-  elementId String
-  element Element @relation(fields: [elementId], references: [uuid])
   x String
   y String
-  spaceId String
-  space Space @relation(fields: [spaceId], references: [uuid])
+  elementId String
+  element Element @relation(fields: [elementId],references: [uuid])
+  layoutMapId String
+  layoutSpaceId String
+  layout ELayout
+  layoutMapRef Space @relation(fields: [layoutMapId], references: [uuid])
+  layoutSpaceRef Map @relation(fields: [layoutSpaceId], references: [uuid])
+
+
 }
 
 model Avatar {
@@ -86,9 +104,14 @@ model Avatar {
   user User[]
 }
   
-enum Role {
+enum ERole {
   PLAYER
   ADMIN
+}
+
+enum ELayout {
+  SPACE
+  MAP
 }
 
 // remaining Task here
