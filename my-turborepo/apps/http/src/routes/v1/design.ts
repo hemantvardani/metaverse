@@ -1,12 +1,13 @@
 import { Router } from "express";
+import { authorizeAdmin } from "../../middleware/v1";
 
 export const router= Router();
 
 //create a new map by admin
-router.post("/map", (res,req)=>{})
+router.post("/map", (req:Express.Request,res:Express.Response)=>{})
 
 //create a new element by admin
-router.post("/element", (res,req)=>{})
+router.post("/element", (req:Express.Request,res:Express.Response)=>{})
 
 //create a new avatar by admin
-router.post("/avatar", (res,req)=>{})
+router.post("/avatar", (req:Express.Request,res:Express.Response)=>{})

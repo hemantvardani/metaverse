@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authenticated } from "../../middleware/v1";
 
 export const router = Router();
 
@@ -13,11 +14,11 @@ router.post("/signin",(req,res)=>{
 })
 
 // updating user fields, like avatar
-router.patch("/",(req,res)=>{
+router.patch("/",authenticated,(req,res)=>{
 
 })
 
 // get all infor about user
-router.get("/",(req,res)=>{
+router.get("/", authenticated,(req,res)=>{
 
 })

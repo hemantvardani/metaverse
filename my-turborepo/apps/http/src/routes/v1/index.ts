@@ -8,12 +8,13 @@ import {router as elementRouter} from './element'
 
 
 import { Router } from 'express'
+import { authenticated, authorizeAdmin } from '../../middleware/v1'
 
 export const router = Router();
 
-router.get("/avatar", avatarRouter)
-router.get("/map", mapRouter)
-router.get("/space", spaceRouter)
+router.get("/avatar",authenticated, avatarRouter)
+router.get("/map",authenticated, mapRouter)
+router.get("/space",authenticated, spaceRouter)
 router.get("/user", userRouter)
-router.get("/design", designRouter)
-router.get("/element", elementRouter)
+router.get("/design",authenticated, authorizeAdmin, designRouter)
+router.get("/element", authenticated, elementRouter)
