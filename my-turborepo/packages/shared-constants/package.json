@@ -1,5 +1,5 @@
 {
-  "name": "shared-constants",
+  "name": "@repo/shared-constants",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +12,6 @@
     "typescript": "^5.7.2"
   },
   "exports":{
-    "./src/enum":"./src/enum.ts"
+    ".":"./src/enum.ts"
   }
 }

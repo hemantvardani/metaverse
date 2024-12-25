@@ -1,5 +1,5 @@
 {
-  "name": "zod-schema",
+  "name": "@repo/zod-schema",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,5 +11,12 @@
   "dependencies": {
     "typescript": "^5.7.2",
     "zod": "^3.24.1"
+  },
+  "exports":{
+    "":"./src/index.ts"
+  },
+  "devDependencies": {
+    "@repo/shared-constants":"*"
   }
+
 }

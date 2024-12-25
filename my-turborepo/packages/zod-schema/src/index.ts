@@ -1,9 +1,16 @@
 import {z} from 'zod';
+// import {ERole} from '../../shared-constants/src/enum';
 
-const UserSignUp= z.object({
-    firstName:z.string(),
-    lastName:z.string(),
-    userName:z.string(),
-    password:z.string(),
-    // role : z.enum(ERole)
+export const userSignUpZ= z.object({
+    firstName:z.string().nonempty(),
+    lastName:z.string().nonempty(),
+    userName:z.string().nonempty(),
+    password:z.string().nonempty(),
+    // role : z.nativeEnum(ERole).optional()
+})
+.required({
+    firstName:true,
+    lastName:true,
+    userName:true,
+    password:true
 })

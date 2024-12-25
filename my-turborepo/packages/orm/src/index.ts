@@ -1,21 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 
-export const prisma = new PrismaClient();
+// so only single connection of prisma is opened
+// global is used instead singleton class, to avoid creation of many connection while hot- reloading
 
-const action= async()=>{
+ declare global {
+    var prismaClient : PrismaClient|undefined;
+ }
 
-    try{
-        console.log("count",await prisma.user.findMany());
-        await prisma.user.create({ data:{firstName:"hemant",
-            lastName:"Vardani",
-            pwdHash :"sfs",
-            userName:"hemant1720"}})
-        console.log("count",await prisma.user.findMany());
-    }catch(err){
-        console.log(err);
-    } finally{
-        await prisma.$disconnect()
-    }
-}
+global.prismaClient= global.prismaClient ?? new PrismaClient();
 
-// action();
+export const prismaClient = global.prismaClient;
