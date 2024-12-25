@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { authenticated } from "../../middleware/v1";
+import { authenticated } from "../../middleware";
+import { userSignUp } from "./user.controller";
 
 export const router = Router();
 
 // for user signup
-router.post("/signup",(req,res)=>{
-
-})
+router.post("/signup",userSignUp)
 
 // for user signin
 router.post("/signin",(req,res)=>{
