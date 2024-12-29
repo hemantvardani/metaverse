@@ -12,6 +12,7 @@
     "typescript": "^5.7.2"
   },
   "exports":{
-    ".":"./src/enum.ts"
+    "./enum":"./src/enum.ts",
+    "./interface":"./src/interface.ts"
   }
 }
