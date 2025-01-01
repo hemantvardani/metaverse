@@ -7,6 +7,11 @@ import { PrismaClient } from "@prisma/client";
     var prismaClient : PrismaClient|undefined;
  }
 
-global.prismaClient= global.prismaClient ?? new PrismaClient();
+export function getPrismaClient() {
+   if(!global.prismaClient){
+      global.prismaClient =  new PrismaClient();
+   }
+   return global.prismaClient;
+}
 
-export const prismaClient = global.prismaClient;
+

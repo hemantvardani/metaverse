@@ -14,7 +14,7 @@ model User {
   uuid  String @default(uuid()) @unique
   firstName String
   lastName String
-  password String
+  password String @default("")
   userName String @unique
   role Role @default(PLAYER)
   spaces Space[]
