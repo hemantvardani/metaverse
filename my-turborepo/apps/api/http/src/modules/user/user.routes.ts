@@ -17,7 +17,7 @@ router.patch("/",authenticated,(req,res)=>{
 
 })
 
-// get all infor about user
+// get all information about user
 router.get("/", authenticated,(req,res)=>{
 
 })

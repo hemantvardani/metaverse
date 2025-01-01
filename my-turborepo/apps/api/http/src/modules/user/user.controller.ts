@@ -1,5 +1,5 @@
 import { userSignUpZ } from "@repo/zod-schema/src";
-import { Request, Response } from "express";
+import { Application, NextFunction, Request, RequestHandler, Response } from "express";
 import { prismaClient } from "@repo/orm/src"
 import { createUser, doesUserFieldAlreadyExist } from "./user.services";
 import { userSignUpTI } from "./user.types";
@@ -11,7 +11,7 @@ import {responsePayloadI} from "@repo/shared-constants/src/interface"
  * @param res 
  * @return {}
  */
-export const userSignUp = async (req:Request, res:Response) => { 
+export const userSignUp : RequestHandler = async (req:Request, res:Response, next:NextFunction): Promise<any> => { 
     let responsePayload:responsePayloadI;
 
     try {
