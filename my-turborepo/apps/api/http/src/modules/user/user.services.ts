@@ -13,7 +13,7 @@ export const doesUserFieldAlreadyExist = async (fieldName: string,fieldValue: st
     const userRecord = await PrismaClient.user.findFirst({
     where: { [fieldName]: fieldValue },
   });
-  console.log("userRecord found is:", userRecord);
+  console.log("userRecord found is:", userRecord?.uuid);
 
   return Boolean(userRecord);
 };

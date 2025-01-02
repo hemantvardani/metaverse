@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "typescript": "^5.7.2",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "@repo/shared-constants": "*"
   },
   "exports":{
     "./dist":"./dist/index.js"
@@ -23,6 +24,6 @@
     "dist/**/*"                         
   ],
   "devDependencies": {
-    "@repo/shared-constants": "*"
+
   }
 }

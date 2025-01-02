@@ -18,11 +18,12 @@ export const userSignUp : RequestHandler = async (req:Request, res:Response, nex
         const headers=req.headers;
         
         // some field missing or empty fields
-        if(!userSignUpZ.safeParse(body).success)
+        const safeParsedResult = userSignUpZ.safeParse(body);
+        if(!safeParsedResult.success)
         {
             console.error("Request payload schema safe-parsed failed")
 
-            responsePayload={status:"error",message:"Invalid request"};
+            responsePayload={status:"error",message:"Invalid request", error:{ details: [safeParsedResult.error]}};
             return res.status(400).json(responsePayload)
         }
         console.info("Request payload schema safe-parsed successfully")
