@@ -1,5 +1,6 @@
 import { getPrismaClient } from "@repo/orm/dist";
 import { userSignUpTI } from "./user.types";
+import { hash } from "bcrypt";
 
 interface outputI {
   isSuccess:boolean,
@@ -23,6 +24,9 @@ export const createUser= async(user:userSignUpTI):Promise<outputI>=>{
   try {
     console.log("inside createUser...")
     const PrismaClient= getPrismaClient();
+
+    //password hashing
+    user.password = await hash(user.password, 5);
 
     const createdUser: any = await PrismaClient.user.create({ data: user });
     console.log("createdUser response",createdUser)

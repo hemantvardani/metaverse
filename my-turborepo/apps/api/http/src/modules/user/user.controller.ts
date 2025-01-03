@@ -44,7 +44,7 @@ export const userSignUp : RequestHandler = async (req:Request, res:Response, nex
             responsePayload={status:"error",message:"Something went wrong"};
             return res.status(400).json(responsePayload)
         }
-        responsePayload = {status:"success",message:"Sign up successful", data:{userId:createdUser?.data?.id}};
+        responsePayload = {status:"success",message:"Sign up successful", data:{userId:createdUser?.data?.userId}};
         return res.status(200).json(responsePayload)
 
         
