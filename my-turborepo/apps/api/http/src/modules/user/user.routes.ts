@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticated } from "../../middleware/index.js";
-import { userSignUp } from "./user.controller.js";
+import { userSignIn, userSignUp } from "./user.controller.js";
 
 export const router = Router();
 
@@ -8,9 +8,7 @@ export const router = Router();
 router.post("/signup",userSignUp)
 
 // for user signin
-router.post("/signin",(req,res)=>{
-
-})
+router.post("/signin", userSignIn)
 
 // updating user fields, like avatar
 router.patch("/",authenticated,(req,res)=>{

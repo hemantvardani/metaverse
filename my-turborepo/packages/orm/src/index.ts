@@ -7,7 +7,7 @@ import { PrismaClient } from "@prisma/client";
     var prismaClient : PrismaClient|undefined;
  }
 
-export function getPrismaClient() {
+export function getPrismaClient():PrismaClient {
    if(!global.prismaClient){
       global.prismaClient =  new PrismaClient();
    }

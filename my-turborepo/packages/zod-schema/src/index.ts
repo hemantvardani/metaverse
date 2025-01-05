@@ -15,3 +15,13 @@ export const userSignUpZ= z.object({
     userName:true,
     password:true
 })
+
+
+export const userSignInZ = z.object({
+    userName: z.string(),
+    password:z.string()
+})
+.required({
+    userName:true,
+    password:true
+})

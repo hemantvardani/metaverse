@@ -1,6 +1,6 @@
 import { getPrismaClient } from "@repo/orm/dist";
-import { userSignUpTI } from "./user.types";
-import { hash } from "bcrypt";
+import { userSignInTI, userSignUpTI } from "./user.types";
+import { compare, hash } from "bcrypt";
 
 interface outputI {
   isSuccess:boolean,
@@ -34,4 +34,23 @@ export const createUser= async(user:userSignUpTI):Promise<outputI>=>{
   } catch (err: any) {
     return { isSuccess: false };
   }
+}
+
+/**
+ * 
+ * @param {username, password}
+ * @returns bool - does user credentials match in db or not?
+ */
+export const doesUserLoginMatch = async(credentials:userSignInTI):Promise<{ userValid:boolean,user?:any }>=>{
+
+  const PrismaClient= getPrismaClient();
+
+  const user = await PrismaClient.user.findUnique({select:{ password:true, userName:true, role:true} ,where:{userName:credentials.userName}});
+
+  let userValid= false;
+  if(user){
+    userValid = await compare(credentials.password, user.password);
+  }
+
+  return { userValid , user: userValid ? user : undefined }
 }
