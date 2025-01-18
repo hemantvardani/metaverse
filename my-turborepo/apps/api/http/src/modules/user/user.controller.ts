@@ -92,7 +92,7 @@ export const userSignIn:RequestHandler = async (req:Request,res:Response,next:Ne
             throw new Error();
         }
 
-        const token = sign({userName:result.user.userName, role: result.user.role}, JWT_SECRET_KEY);
+        const token = sign({uuid:result.user.uuid, userName:result.user.userName, role: result.user.role}, JWT_SECRET_KEY);
         responsePayload={status:'success', message:"Sign-in successful", data:{token}};
 
         return res.status(200).json(responsePayload)
@@ -120,15 +120,15 @@ export const updateUserInfoHandler:RequestHandler= async(req:Request, res:Respon
         console.info("Request payload schema safe-parsed successfully")
         
         const avatarId= safeParsedBody.data.avatarId;
-        const userName= req.body?.decodedInfo?.userName;
+        const uuid= req.body?.decodedInfo?.uuid;
 
         console.log("Requested changes are :",avatarId);
-        console.log("UserName is", userName);
+        console.log("UserId is", uuid);
         
         const prismaClient= getPrismaClient();
 
-        if(userName && avatarId){
-            prismaClient.user.update({where:{userName},data:{avatarId}});
+        if(uuid && avatarId){
+            prismaClient.user.update({where:{uuid},data:{avatarId}});
         }else{
             throw {};
         }

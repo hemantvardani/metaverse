@@ -27,7 +27,7 @@ export const authenticated = async (
       const decodedInfo: JwtPayload = verify(token, JWT_SECRET_KEY) as JwtPayload;
       const prismaClient= getPrismaClient();
       
-      await prismaClient.user.findFirstOrThrow({where:{userName:decodedInfo.userName}});
+      await prismaClient.user.findFirstOrThrow({where:{uuid:decodedInfo.uuid}});
 
       req.body.decodedInfo= decodedInfo;
 
