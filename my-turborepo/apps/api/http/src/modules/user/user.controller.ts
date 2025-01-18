@@ -124,7 +124,7 @@ export const updateUserInfoHandler:RequestHandler= async(req:Request, res:Respon
         console.info("Request payload schema safe-parsed successfully")
         
         const avatarId= safeParsedBody.data.avatarId;
-        const uuid= req.body?.decodedInfo?.uuid;
+        const uuid= req.headers.uuid as string;
 
         console.log("Requested changes are :",avatarId);
         console.log("UserId is", uuid);

@@ -30,3 +30,13 @@ export const userUpdateInfoZ = z.object({
     avatarId:z.string()
 })
 .required({avatarId:true})
+
+
+export const createAvatarZ= z.object({
+    img:z.string(),
+    title:z.string()
+})
+.required({
+    img:true,
+    title:true
+})
