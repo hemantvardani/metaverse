@@ -1,15 +1,9 @@
-
 export enum ERole {
-    ADMIN="ADMIN",
-    PLAYER="PLAYER"
+  ADMIN = "ADMIN",
+  PLAYER = "PLAYER",
 }
 
 export enum ELayout {
-    SPACE="SPACE",
-    MAP="MAP"
+  SPACE = "SPACE",
+  MAP = "MAP",
 }
-
-
-  
-
- 

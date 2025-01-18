@@ -12,326 +12,306 @@ const failTheTest=()=>{
 }
 
 
-describe("Authentication - Sign Up", () => {
-  test("any field empty", async () => {
-    let fields = {
-      firstName: "hemant",
-      lastName: "vardani",
-      userName: "hemant11@H" + Math.round(Math.random() * 10000000),
-      password: "qwerty11@H",
-    };
-
-    for (let key of Object.keys(fields)) {
-      let fieldsTemp = fields;
-      fieldsTemp[key] = "";
-
-      console.log("Testing when payload is ", fieldsTemp);
-      try{
-
-        await axios.post(
-          `${BACKEND_URL}/api/v1/user/signup`,
-          fieldsTemp
-        );
-
-        failTheTest();
-      }catch(err){
-
-        console.log(  err.status,"response")
-        expect(err.response.status).toBe(400);
-         
-      }
-    
-      
-    }
-
-    for (let key of Object.keys(fields)) {
-      let fieldsTemp = fields;
-      delete fieldsTemp[key];
-
-      console.log("Testing when payload is ", fieldsTemp);
-      try{
-        await axios.post(
-          `${BACKEND_URL}/api/v1/user/signup`,
-          fieldsTemp
-        );
-
-        failTheTest();
-
-      }catch(err){
-        expect(err.response.status).toBe(400);
-      }
-       
-    }
-  });
-
-
-  test("password not strong", async () => {
-    let fields = {
-      firstName: "hemant",
-      lastName: "vardani",
-      userName: "hemant@H" + Math.round(Math.random() * 10000000),
-      password: "qwerty",
-    };
-
-    try {
-      await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-      failTheTest();
-    }catch(err){
-      console.log( err.response.status,"response code")
-      expect(err.response.status).toBe(400);
-    }
-
-  });
-
-  test("All Favourable -user successfully able to sign up ", async () => {
-    let fields = {
-      firstName: "hemant",
-      lastName: "vardani",
-      userName: "hemant11@HF" + Math.round(Math.random() * 10000000),
-      password: "qwerty11@HF",
-    };
-
-    try{
-      let res= await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-      expect(res.status).toBe(200);
-      expect(res?.data?.data?.token).toBeDefined();
-    }catch(err){   
-      failTheTest();
-    } 
-  });
-
-  test("user already exist", async () => {
-    let fields = {
-      firstName: "hemant",
-      lastName: "vardani",
-      userName: "hemant11@H" + Math.round(Math.random() * 10000000),
-      password: "qwerty11@H",
-    };
-
-    let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-    expect(res.status).toBe(200);
-
-    try{
-      await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields); 
-      failTheTest();
-    }catch(err){
-      expect(err.status).toBe(409);
-    } 
-
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-describe("Authentication - Sign In", () => {
-  test("Sign In- field blank ", async () => {
-
-    let res ;
-    console.log("BACKEND_URL ::",BACKEND_URL)
-      try {
-        res=  await axios.post(`http://localhost:3000/api/v1/user/signin`, {
-          userName: "sjlfjslkjls"
-        });
-      
-        failTheTest();
-      }catch (err){
-        expect(err.response.status).toBe(400)
-      }
-      
-
-      try {
-        res =  await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
-          password: "Hskldjflk@11",
-        });
-        failTheTest();
-      }catch (err){
-         
-        expect(err.response.status).toBe(400);
-      }
-      
-     
-  
-  });
-
-  test("Sign In- user not exists ", async () => {
-    let fields = {
-      userName: "hemant11@H1" + Math.round(Math.random() * 10000000),
-      password: "qwerty11@H",
-    };
-
-    try{
-      res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
-      failTheTest();
-    }catch(err){
-      expect(err.status).toBe(401);
-    }
-  
-  });
-
-  test("Sign In- wrong password ", async () => {
-    let fields = {
-      firstName: "hemant",
-      lastName: "vardani",
-      userName: "hemant11@H1" + Math.round(Math.random() * 10000000),
-      password: "qwerty11@H",
-    };
-
-    let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-
-    delete fields.firstName;
-    delete fields.lastName;
-
-    fields.password = fields.password + "1";
-
-    try{
-      res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
-      failTheTest();
-    }catch(err){
-      expect(err.status).toBe(401);
-    }
-
-
-  });
-
-  test("Sign In- All Favourable - correct password ", async () => {
-    let fields = {
-      firstName: "hemant",
-      lastName: "vardani",
-      userName: "hemant11@H1" + Math.round(Math.random() * 10000000),
-      password: "qwerty11@H",
-    };
-
-    let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-
-    delete fields.firstName;
-    delete fields.lastName;
-
-    fields.password = fields.password;
-    
-    res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
-    expect(res.status).toBe(200);
-    expect(res.data.data.token).toBeDefined();
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-// describe("User Create Avatar -> Get list of Avatars -> select a avator", () => {
-//   let token;
-
-//   beforeAll("signUp and signIn user", async () => {
+// describe("Authentication - Sign Up", () => {
+//   test("any field empty", async () => {
 //     let fields = {
 //       firstName: "hemant",
 //       lastName: "vardani",
 //       userName: "hemant11@H" + Math.round(Math.random() * 10000000),
 //       password: "qwerty11@H",
-//       role: "ADMIN",
+//     };
+
+//     for (let key of Object.keys(fields)) {
+//       let fieldsTemp = fields;
+//       fieldsTemp[key] = "";
+
+//       console.log("Testing when payload is ", fieldsTemp);
+//       try{
+
+//         await axios.post(
+//           `${BACKEND_URL}/api/v1/user/signup`,
+//           fieldsTemp
+//         );
+
+//         failTheTest();
+//       }catch(err){
+
+//         console.log(  err.status,"response")
+//         expect(err.response.status).toBe(400);
+         
+//       }
+    
+      
+//     }
+
+//     for (let key of Object.keys(fields)) {
+//       let fieldsTemp = fields;
+//       delete fieldsTemp[key];
+
+//       console.log("Testing when payload is ", fieldsTemp);
+//       try{
+//         await axios.post(
+//           `${BACKEND_URL}/api/v1/user/signup`,
+//           fieldsTemp
+//         );
+
+//         failTheTest();
+
+//       }catch(err){
+//         expect(err.response.status).toBe(400);
+//       }
+       
+//     }
+//   });
+
+
+//   test("password not strong", async () => {
+//     let fields = {
+//       firstName: "hemant",
+//       lastName: "vardani",
+//       userName: "hemant@H" + Math.round(Math.random() * 10000000),
+//       password: "qwerty",
+//     };
+
+//     try {
+//       await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+//       failTheTest();
+//     }catch(err){
+//       console.log( err.response.status,"response code")
+//       expect(err.response.status).toBe(400);
+//     }
+
+//   });
+
+//   test("All Favorable -user successfully able to sign up ", async () => {
+//     let fields = {
+//       firstName: "hemant",
+//       lastName: "vardani",
+//       userName: "hemant11@HF" + Math.round(Math.random() * 10000000),
+//       password: "qwerty11@HF",
+//     };
+
+//     try{
+//       let res= await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+//       expect(res.status).toBe(200);
+//       expect(res?.data?.data?.token).toBeDefined();
+//     }catch(err){   
+//       failTheTest();
+//     } 
+//   });
+
+//   test("user already exist", async () => {
+//     let fields = {
+//       firstName: "hemant",
+//       lastName: "vardani",
+//       userName: "hemant11@H" + Math.round(Math.random() * 10000000),
+//       password: "qwerty11@H",
 //     };
 
 //     let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
 //     expect(res.status).toBe(200);
 
+//     try{
+//       await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields); 
+//       failTheTest();
+//     }catch(err){
+//       expect(err.status).toBe(409);
+//     } 
+
+//   });
+// });
+
+
+
+
+// describe("Authentication - Sign In", () => {
+//   test("Sign In- field blank ", async () => {
+
+//     let res ;
+//     console.log("BACKEND_URL ::",BACKEND_URL)
+//       try {
+//         res=  await axios.post(`http://localhost:3000/api/v1/user/signin`, {
+//           userName: "sjlfjslkjls"
+//         });
+      
+//         failTheTest();
+//       }catch (err){
+//         expect(err.response.status).toBe(400)
+//       }
+      
+
+//       try {
+//         res =  await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+//           password: "Hskldjflk@11",
+//         });
+//         failTheTest();
+//       }catch (err){
+         
+//         expect(err.response.status).toBe(400);
+//       }
+      
+     
+  
+//   });
+
+//   test("Sign In- user not exists ", async () => {
+//     let fields = {
+//       userName: "hemant11@H1" + Math.round(Math.random() * 10000000),
+//       password: "qwerty11@H",
+//     };
+
+//     try{
+//       res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
+//       failTheTest();
+//     }catch(err){
+//       expect(err.status).toBe(401);
+//     }
+  
+//   });
+
+//   test("Sign In- wrong password ", async () => {
+//     let fields = {
+//       firstName: "hemant",
+//       lastName: "vardani",
+//       userName: "hemant11@H1" + Math.round(Math.random() * 10000000),
+//       password: "qwerty11@H",
+//     };
+
+//     let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+
 //     delete fields.firstName;
 //     delete fields.lastName;
-//     res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
 
-//     expect(res.status).toBe(200);
-//     expect(res.response).toHaveProperty("token");
+//     fields.password = fields.password + "1";
 
-//     token = res.response.token;
-//   });
-
-//   test("create a avatar - fields empty", async () => {
-//     let fields = {
-//       title: "hemant" + Math.round(Math.random() * 1000),
-//       img: "url",
-//     };
-//     for (const key of Object.keys(fields)) {
-//       const res = await axios.post(
-//         `${BACKEND_URL}/api/v1/admin/avatar`,
-//         { ...fields, [key]: "" },
-//         { header: { authorization: `bearer ${token}` } }
-//       );
-//       expect(res.status).toBe(400);
+//     try{
+//       res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
+//       failTheTest();
+//     }catch(err){
+//       expect(err.status).toBe(401);
 //     }
+
+
 //   });
 
-//   test("create a avatar - unauthorized", async () => {
+//   test("Sign In- All Favorable - correct password ", async () => {
 //     let fields = {
-//       title: "hemant" + Math.round(Math.random() * 1000),
-//       img: "url",
+//       firstName: "hemant",
+//       lastName: "vardani",
+//       userName: "hemant11@H1" + Math.round(Math.random() * 10000000),
+//       password: "qwerty11@H",
 //     };
-//     const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields);
-//     expect(res.status).toBe(401);
-//   });
 
-//   test("create a avatar - All Favaourable", async () => {
-//     let fields = {
-//       title: "hemant" + Math.round(Math.random() * 1000),
-//       img: "url",
-//     };
-//     const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields, {
-//       header: { authorization: `bearer ${token}` },
-//     });
+//     let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+
+//     delete fields.firstName;
+//     delete fields.lastName;
+
+//     fields.password = fields.password;
+    
+//     res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
 //     expect(res.status).toBe(200);
-
-//     describe("get list of all avatar availabel ", () => {
-//       let token;
-
-//       beforeAll("signUp and signIn user with Player role", async () => {
-//         let fields = {
-//           firstName: "hemant",
-//           lastName: "vardani",
-//           userName: "hemant11@H" + Math.round(Math.random() * 10000000),
-//           password: "qwerty11@H",
-//         };
-
-//         let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-//         expect(res.status).toBe(200);
-
-//         delete fields.firstName;
-//         delete fields.lastName;
-//         res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
-
-//         expect(res.status).toBe(200);
-//         expect(res.response).toHaveProperty("token");
-
-//         token = res.response.token;
-//       });
-
-//       test("get list of avatar available - unauthorized", async () => {
-//         const res = await axios.get(`${BACKEND_URL}/api/v1/element/all`);
-//         expect(res.status).toBe(401);
-//       });
+//     expect(res.data.data.token).toBeDefined();
+//   });
+// });
 
 
 
+describe("User Create Avatar -> Get list of Avatars -> select a avatar", () => {
+  let token;
+
+  beforeAll("signUp and signIn user", async () => {
+    let fields = {
+      firstName: "hemant",
+      lastName: "vardani",
+      userName: "hemant11@H" + Math.round(Math.random() * 10000000),
+      password: "qwerty11@H",
+      role: "ADMIN",
+    };
+
+    let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+    expect(res.status).toBe(200);
+
+    delete fields.firstName;
+    delete fields.lastName;
+    res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
+
+    expect(res.status).toBe(200);
+    expect(res.response).toHaveProperty("token");
+
+    token = res.response.token;
+  });
+
+  test("create a avatar - fields empty", async () => {
+    let fields = {
+      title: "hemant" + Math.round(Math.random() * 1000),
+      img: "url",
+    };
+    for (const key of Object.keys(fields)) {
+      const res = await axios.post(
+        `${BACKEND_URL}/api/v1/admin/avatar`,
+        { ...fields, [key]: "" },
+        { header: { authorization: `bearer ${token}` } }
+      );
+      expect(res.status).toBe(400);
+    }
+  });
+
+  test("create a avatar - unauthorized", async () => {
+    let fields = {
+      title: "hemant" + Math.round(Math.random() * 1000),
+      img: "url",
+    };
+    const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields);
+    expect(res.status).toBe(401);
+  });
+
+  test("create a avatar - All Favorable", async () => {
+    let fields = {
+      title: "hemant" + Math.round(Math.random() * 1000),
+      img: "url",
+    };
+    const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields, {
+      header: { authorization: `bearer ${token}` },
+    });
+    expect(res.status).toBe(200);
+
+    describe("get list of all avatar available ", () => {
+      let token;
+
+      beforeAll("signUp and signIn user with Player role", async () => {
+        let fields = {
+          firstName: "hemant",
+          lastName: "vardani",
+          userName: "hemant11@H" + Math.round(Math.random() * 10000000),
+          password: "qwerty11@H",
+        };
+
+        let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+        expect(res.status).toBe(200);
+
+        delete fields.firstName;
+        delete fields.lastName;
+        res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
+
+        expect(res.status).toBe(200);
+        expect(res.response).toHaveProperty("token");
+
+        token = res.response.token;
+      });
+
+      test("get list of avatar available - unauthorized", async () => {
+        const res = await axios.get(`${BACKEND_URL}/api/v1/element/all`);
+        expect(res.status).toBe(401);
+      });
+    });
+
+  });
+
+});
 
 
-
-
-
-
-
-//       describe("get list of avatar available - All Favarable", () => {
+//       describe("get list of avatar available - All Favorable", () => {
 //         let avatars;
 
 //         beforeAll("", async () => {
@@ -359,7 +339,7 @@ describe("Authentication - Sign In", () => {
 //           expect(res.status).toBe(401);
 //         });
 
-//         test("select a avatar-> All Favourable", async () => {
+//         test("select a avatar-> All Favorable", async () => {
 //           const avatarId = avatars[0].avatarId;
 //           const res = await axios.post(
 //             `${BACKEND_URL}/api/v1/user/update`,
@@ -498,7 +478,7 @@ describe("Authentication - Sign In", () => {
 //     });
 //   });
 
-//   test("create element- All Favourable", async () => {
+//   test("create element- All Favorable", async () => {
 //     const createElementPayload = {
 //       title: "E" + Math.ceil(Math.random() * 100),
 //       img: "sde",
@@ -713,7 +693,7 @@ describe("Authentication - Sign In", () => {
 //     });
 //   });
 
-//   test("create Map- All Favourable", async () => {
+//   test("create Map- All Favorable", async () => {
 //     const createMapPayload = {
 //       title: "M" + Math.ceil(Math.random() * 100),
 //       img: "sde",

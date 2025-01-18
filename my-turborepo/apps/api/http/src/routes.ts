@@ -8,7 +8,6 @@ import { router as designRouter } from "./modules/design/design.routes.js";
 import { router as elementRouter } from "./modules/element/element.routes.js";
 import { router as testRouter } from "./modules/testing/test.routes.js";
 
-
 export const router = Router();
 
 router.use("/user", userRouter);
@@ -17,4 +16,4 @@ router.use("/space", authenticated, spaceRouter);
 router.use("/avatar", authenticated, avatarRouter);
 router.use("/element", authenticated, elementRouter);
 router.use("/design", authenticated, authorizeAdmin, designRouter);
-router.use("/test",testRouter)
+router.use("/test", testRouter);
