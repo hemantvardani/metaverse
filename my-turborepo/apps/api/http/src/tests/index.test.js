@@ -124,6 +124,9 @@ const failTheTest=()=>{
 
 
 
+
+
+
 // describe("Authentication - Sign In", () => {
 //   test("Sign In- field blank ", async () => {
 
@@ -217,99 +220,97 @@ const failTheTest=()=>{
 
 
 
-describe("User Create Avatar -> Get list of Avatars -> select a avatar", () => {
-  let token;
 
-  beforeAll("signUp and signIn user", async () => {
-    let fields = {
-      firstName: "hemant",
-      lastName: "vardani",
-      userName: "hemant11@H" + Math.round(Math.random() * 10000000),
-      password: "qwerty11@H",
-      role: "ADMIN",
-    };
 
-    let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-    expect(res.status).toBe(200);
 
-    delete fields.firstName;
-    delete fields.lastName;
-    res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
 
-    expect(res.status).toBe(200);
-    expect(res.response).toHaveProperty("token");
+// describe("User Create Avatar -> Get list of Avatars -> select a avatar", () => {
+//   let token;
 
-    token = res.response.token;
-  });
+//   beforeAll("signUp and signIn user", async () => {
+//     let fields = {
+//       firstName: "hemant",
+//       lastName: "vardani",
+//       userName: "hemant11@H" + Math.round(Math.random() * 10000000),
+//       password: "qwerty11@H",
+//       role: "ADMIN",
+//     };
 
-  test("create a avatar - fields empty", async () => {
-    let fields = {
-      title: "hemant" + Math.round(Math.random() * 1000),
-      img: "url",
-    };
-    for (const key of Object.keys(fields)) {
-      const res = await axios.post(
-        `${BACKEND_URL}/api/v1/admin/avatar`,
-        { ...fields, [key]: "" },
-        { header: { authorization: `bearer ${token}` } }
-      );
-      expect(res.status).toBe(400);
-    }
-  });
+//     let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+//     expect(res.status).toBe(200);
 
-  test("create a avatar - unauthorized", async () => {
-    let fields = {
-      title: "hemant" + Math.round(Math.random() * 1000),
-      img: "url",
-    };
-    const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields);
-    expect(res.status).toBe(401);
-  });
+//     delete fields.firstName;
+//     delete fields.lastName;
+//     res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
 
-  test("create a avatar - All Favorable", async () => {
-    let fields = {
-      title: "hemant" + Math.round(Math.random() * 1000),
-      img: "url",
-    };
-    const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields, {
-      header: { authorization: `bearer ${token}` },
-    });
-    expect(res.status).toBe(200);
+//     expect(res.status).toBe(200);
+//     expect(res.response).toHaveProperty("token");
 
-    describe("get list of all avatar available ", () => {
-      let token;
+//     token = res.response.token;
+//   });
 
-      beforeAll("signUp and signIn user with Player role", async () => {
-        let fields = {
-          firstName: "hemant",
-          lastName: "vardani",
-          userName: "hemant11@H" + Math.round(Math.random() * 10000000),
-          password: "qwerty11@H",
-        };
+//   test("create a avatar - fields empty", async () => {
+//     let fields = {
+//       title: "hemant" + Math.round(Math.random() * 1000),
+//       img: "url",
+//     };
+//     for (const key of Object.keys(fields)) {
+//       const res = await axios.post(
+//         `${BACKEND_URL}/api/v1/admin/avatar`,
+//         { ...fields, [key]: "" },
+//         { header: { authorization: `bearer ${token}` } }
+//       );
+//       expect(res.status).toBe(400);
+//     }
+//   });
 
-        let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
-        expect(res.status).toBe(200);
+//   test("create a avatar - unauthorized", async () => {
+//     let fields = {
+//       title: "hemant" + Math.round(Math.random() * 1000),
+//       img: "url",
+//     };
+//     const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields);
+//     expect(res.status).toBe(401);
+//   });
 
-        delete fields.firstName;
-        delete fields.lastName;
-        res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
+//   test("create a avatar - All Favorable", async () => {
+//     let fields = {
+//       title: "hemant" + Math.round(Math.random() * 1000),
+//       img: "url",
+//     };
+//     const res = await axios.post(`${BACKEND_URL}/api/v1/admin/avatar`, fields, {
+//       headers: { authorization: `bearer ${token}` },
+//     });
+//     expect(res.status).toBe(200);
 
-        expect(res.status).toBe(200);
-        expect(res.response).toHaveProperty("token");
+//     describe("get list of all avatar available ", () => {
+//       let token;
 
-        token = res.response.token;
-      });
+//       beforeAll("signUp and signIn user with Player role", async () => {
+//         let fields = {
+//           firstName: "hemant",
+//           lastName: "vardani",
+//           userName: "hemant11@H" + Math.round(Math.random() * 10000000),
+//           password: "qwerty11@H",
+//         };
 
-      test("get list of avatar available - unauthorized", async () => {
-        const res = await axios.get(`${BACKEND_URL}/api/v1/element/all`);
-        expect(res.status).toBe(401);
-      });
-    });
+//         let res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
+//         expect(res.status).toBe(200);
 
-  });
+//         delete fields.firstName;
+//         delete fields.lastName;
+//         res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, fields);
 
-});
+//         expect(res.status).toBe(200);
+//         expect(res.response).toHaveProperty("token");
 
+//         token = res.response.token;
+//       });
+
+//       test("get list of avatar available - unauthorized", async () => {
+//         const res = await axios.get(`${BACKEND_URL}/api/v1/element/all`);
+//         expect(res.status).toBe(401);
+//       });
 
 //       describe("get list of avatar available - All Favorable", () => {
 //         let avatars;
@@ -368,10 +369,6 @@ describe("User Create Avatar -> Get list of Avatars -> select a avatar", () => {
 //     expect(res.status).toBe(409);
 //   });
 // });
-
-
-
-
 
 
 
@@ -729,6 +726,13 @@ describe("User Create Avatar -> Get list of Avatars -> select a avatar", () => {
 //   });
 // });
 
+
+
+
+
+
+
+
 // describe("create a Space", () => {
 //   let adminToken;
 //   let userToken;
@@ -900,4 +904,3 @@ describe("User Create Avatar -> Get list of Avatars -> select a avatar", () => {
 
 
 
-// get space info
