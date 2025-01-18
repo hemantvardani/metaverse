@@ -25,3 +25,8 @@ export const userSignInZ = z.object({
     userName:true,
     password:true
 })
+
+export const userUpdateInfoZ = z.object({
+    avatarId:z.string()
+})
+.required({avatarId:true})

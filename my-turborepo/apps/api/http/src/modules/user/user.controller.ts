@@ -1,10 +1,11 @@
-import { userSignInZ, userSignUpZ } from "@repo/zod-schema/dist";
+import { userSignInZ, userSignUpZ, userUpdateInfoZ } from "@repo/zod-schema/dist";
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { createUser, doesUserFieldAlreadyExist, doesUserLoginMatch } from "./user.services.js";
 import { userSignUpTI } from "./user.types";
 import { responsePayloadI } from "@repo/shared-constants/dist/interface.js"
 import { JWT_SECRET_KEY } from "../../constants/index.constants.js";
 import pkg from 'jsonwebtoken';
+import { getPrismaClient } from "@repo/orm/dist/index.js";
 const { sign } = pkg;
 
 /**
@@ -97,8 +98,56 @@ export const userSignIn:RequestHandler = async (req:Request,res:Response,next:Ne
         return res.status(200).json(responsePayload)
 
     } catch(err){
+        console.log("inside catch")
         console.error(err);
         responsePayload={status:"error", message:"Something went wrong"}
         return res.status(500).json(responsePayload);
     }
+}
+
+export const updateUserInfoHandler:RequestHandler= async(req:Request, res:Response, next: NextFunction):Promise<any> => {
+    console.info("User Update Info Request Incoming.....")
+    let responsePayload:responsePayloadI;
+    
+    try{
+        const safeParsedBody = userUpdateInfoZ.safeParse(req.body);
+        if(!safeParsedBody.success){
+            console.error("Request payload schema safe-parsed failed");
+            responsePayload={status:"error",message:"Invalid request", error:{ details: [safeParsedBody.error]}};
+            return res.status(400).json(responsePayload);
+        }
+
+        console.info("Request payload schema safe-parsed successfully")
+        
+        const avatarId= safeParsedBody.data.avatarId;
+        const userName= req.body?.decodedInfo?.userName;
+
+        console.log("Requested changes are :",avatarId);
+        console.log("UserName is", userName);
+        
+        const prismaClient= getPrismaClient();
+
+        if(userName && avatarId){
+            prismaClient.user.update({where:{userName},data:{avatarId}});
+        }else{
+            throw {};
+        }
+
+    }catch{
+        console.log("inside catch")
+        res.status(500).send();
+    }
+}
+
+export const getUserInfo:RequestHandler = async (req:Request, res:Response, next: NextFunction): Promise <any> =>{
+    console.info("getUserInfo Request Incoming.....")
+    let responsePayload:responsePayloadI;
+
+    // try{
+        
+    // }catch{
+    //     console.log("inside catch")
+    //     res.status(500).send();
+    // }
+    
 }
