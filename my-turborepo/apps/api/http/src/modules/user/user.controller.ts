@@ -1,11 +1,10 @@
 import { userSignInZ, userSignUpZ, userUpdateInfoZ } from "@repo/zod-schema/dist";
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { createUser, doesUserFieldAlreadyExist, doesUserLoginMatch } from "./user.services.js";
+import { createUser, doesUserFieldAlreadyExist, doesUserLoginMatch, updateUserDetails } from "./user.services.js";
 import { userSignUpTI } from "./user.types";
 import { responsePayloadI } from "@repo/shared-constants/dist/interface.js"
 import { JWT_SECRET_KEY } from "../../constants/index.constants.js";
 import pkg from 'jsonwebtoken';
-import { getPrismaClient } from "@repo/orm/dist/index.js";
 const { sign } = pkg;
 
 /**
@@ -49,7 +48,12 @@ export const userSignUp : RequestHandler = async (req:Request, res:Response, nex
             responsePayload={status:"error",message:"Something went wrong"};
             return res.status(400).json(responsePayload)
         }
-        responsePayload = {status:"success",message:"Sign up successful", data:{userId:createdUser?.data?.userId}};
+
+        const createdUserData= createdUser.data.createdUser;
+
+        const token = sign({uuid:createdUserData.uuid, userName:createdUserData.userName, role: createdUserData.role}, JWT_SECRET_KEY);
+
+        responsePayload = {status:"success",message:"Sign up successful", data:{token}};
         return res.status(200).json(responsePayload)
 
         
@@ -125,10 +129,9 @@ export const updateUserInfoHandler:RequestHandler= async(req:Request, res:Respon
         console.log("Requested changes are :",avatarId);
         console.log("UserId is", uuid);
         
-        const prismaClient= getPrismaClient();
-
+        
         if(uuid && avatarId){
-            prismaClient.user.update({where:{uuid},data:{avatarId}});
+            await updateUserDetails(uuid,{avatarId})
         }else{
             throw {};
         }
