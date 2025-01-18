@@ -94,7 +94,7 @@ describe("Authentication - Sign Up", () => {
     try{
       let res= await axios.post(`${BACKEND_URL}/api/v1/user/signup`, fields);
       expect(res.status).toBe(200);
-      expect(res?.data?.data?.userId).toBeDefined();
+      expect(res?.data?.data?.token).toBeDefined();
     }catch(err){   
       failTheTest();
     } 

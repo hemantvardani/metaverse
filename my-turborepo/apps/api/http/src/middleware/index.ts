@@ -1,8 +1,10 @@
 import { getPrismaClient } from "@repo/orm/dist";
-import { responsePayloadI } from "@repo/shared-constants/dist/interface";
+import { responsePayloadI } from "@repo/shared-constants/dist/interface.js";
 import { NextFunction , Response , Request} from "express";
-import { JwtPayload, verify } from "jsonwebtoken";
-import { JWT_SECRET_KEY } from "../constants/index.constants";
+import { JwtPayload} from "jsonwebtoken";
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
+import { JWT_SECRET_KEY } from "../constants/index.constants.js";
 
 export const authorizeAdmin = (
   req: Express.Request,
@@ -27,7 +29,7 @@ export const authenticated = async (
       const decodedInfo: JwtPayload = verify(token, JWT_SECRET_KEY) as JwtPayload;
       const prismaClient= getPrismaClient();
       
-      await prismaClient.user.findFirstOrThrow({where:{userName:decodedInfo.userName}});
+      await prismaClient.user.findFirstOrThrow({where:{uuid:decodedInfo.uuid}});
 
       req.body.decodedInfo= decodedInfo;
 

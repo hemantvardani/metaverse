@@ -30,7 +30,7 @@ export const createUser= async(user:userSignUpTI):Promise<outputI>=>{
 
     const createdUser: any = await PrismaClient.user.create({ data: user });
     console.log("createdUser response",createdUser)
-    return { isSuccess: true, data: { userId: createdUser.uuid } };
+    return { isSuccess: true, data: { createdUser } };
   } catch (err: any) {
     return { isSuccess: false };
   }
@@ -53,4 +53,10 @@ export const doesUserLoginMatch = async(credentials:userSignInTI):Promise<{ user
   }
 
   return { userValid , user: userValid ? user : undefined }
+}
+
+export const updateUserDetails = async (uuid:string, data:any):Promise<void> =>{
+    const PrismaClient= getPrismaClient();
+
+    PrismaClient.user.update({where:{uuid},data}); 
 }
