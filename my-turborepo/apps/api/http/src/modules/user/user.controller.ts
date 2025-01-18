@@ -18,8 +18,8 @@ const { sign } = pkg;
 
 /**
  *
- * @param req
- * @param res
+ * @param req - body { userSignUpZ type }
+ * @param res - responsePayloadI
  * @return {}
  */
 export const userSignUp: RequestHandler = async (
@@ -94,6 +94,13 @@ export const userSignUp: RequestHandler = async (
   }
 };
 
+/**
+ *
+ * @param req - body {userSignInZ}
+ * @param res - responsePayloadI
+ * @param next
+ * @returns
+ */
 export const userSignIn: RequestHandler = async (
   req: Request,
   res: Response,
@@ -155,6 +162,13 @@ export const userSignIn: RequestHandler = async (
   }
 };
 
+/**
+ *
+ * @param req - body {userUpdateInfoZ} , headers { decoded token information [uuid, userName, Role] }
+ * @param res - responsePayloadI
+ * @param next
+ * @returns
+ */
 export const updateUserInfoHandler: RequestHandler = async (
   req: Request,
   res: Response,
@@ -184,7 +198,7 @@ export const updateUserInfoHandler: RequestHandler = async (
     console.log("UserId is", uuid);
 
     if (uuid && avatarId) {
-      await updateUserDetails(uuid, { avatarId });
+      await updateUserDetails(uuid, { ...safeParsedBody });
     } else {
       throw {};
     }
@@ -194,6 +208,13 @@ export const updateUserInfoHandler: RequestHandler = async (
   }
 };
 
+/**
+ *
+ * @param req
+ * @param res - responsePayloadI
+ * @param next
+ * @returns
+ */
 export const getUserInfo: RequestHandler = async (
   req: Request,
   res: Response,

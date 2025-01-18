@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { createAvatarHandler } from "./design.controllers";
+import { createAvatarHandler } from "./design.controllers.js";
 export const router = Router();
 
 //create a new map by admin

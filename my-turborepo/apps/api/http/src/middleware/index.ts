@@ -1,6 +1,6 @@
 import { getPrismaClient } from "@repo/orm/dist";
-import { responsePayloadI } from "@repo/shared-constants/dist/interface.js";
-import { ERole } from "@repo/shared-constants/dist/enum.js";
+import { responsePayloadI } from "@repo/shared-constants/dist/interface";
+import { ERole } from "@repo/shared-constants/dist/enum";
 
 import { NextFunction, Response, Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
@@ -8,6 +8,13 @@ import pkg from "jsonwebtoken";
 const { verify } = pkg;
 import { JWT_SECRET_KEY } from "../constants/index.constants.js";
 
+/**
+ *
+ * @param req - headers {authorization:`Bearer ${token}`}
+ * @param res
+ * @param next
+ * @returns
+ */
 export const authorizeAdmin = async (
   req: Request,
   res: Response,
@@ -60,6 +67,13 @@ export const authorizeAdmin = async (
   }
 };
 
+/**
+ *
+ * @param req - headers {authorization:`Bearer ${token}`}
+ * @param res
+ * @param next
+ * @returns
+ */
 export const authenticated = async (
   req: Request,
   res: Response,

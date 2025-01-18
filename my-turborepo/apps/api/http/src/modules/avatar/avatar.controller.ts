@@ -1,8 +1,31 @@
 import { responsePayloadI } from "@repo/shared-constants/dist/interface";
 import { NextFunction, RequestHandler, Request, Response } from "express";
+import { getAllAvatarsList } from "./avatar.services.js";
 
-// export const fetchAvatarListHandler:RequestHandler = async (req:Request,res:Response,next:NextFunction):Promise<any>=>{
-//     console.info("User Sign In Request Incoming.....")
-//     let responsePayload:responsePayloadI;
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+export const fetchAvatarListHandler: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
+  console.info("fetchAvatarListHandler Request Incoming.....");
+  let responsePayload: responsePayloadI;
 
-// }
+  try {
+    const availableAvatars = await getAllAvatarsList();
+    responsePayload = {
+      status: "success",
+      message: "Avatars list successfully fetched",
+      data: { avatars: availableAvatars },
+    };
+    res.status(200).json(responsePayload);
+  } catch {
+    console.log("inside catch");
+    res.status(500).send();
+  }
+};

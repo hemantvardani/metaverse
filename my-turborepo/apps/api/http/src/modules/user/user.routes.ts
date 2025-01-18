@@ -9,11 +9,12 @@ import {
 
 export const router = Router();
 
-// for user signup
+// for user signup - jest tests done
 router.post("/signup", userSignUp);
 
-// for user signin
+// for user signin - jest tests done
 router.post("/signin", userSignIn);
+
 
 // updating user fields, like avatar
 router.patch("/", authenticated, updateUserInfoHandler);

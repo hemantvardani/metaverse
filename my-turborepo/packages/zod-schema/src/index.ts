@@ -17,35 +17,26 @@ export const userSignUpZ = z
       }),
     // role : z.nativeEnum(ERole).optional()
   })
-  .required({
-    firstName: true,
-    lastName: true,
-    userName: true,
-    password: true,
-  });
+  .strict();
 
 export const userSignInZ = z
   .object({
     userName: z.string(),
     password: z.string(),
   })
-  .required({
-    userName: true,
-    password: true,
-  });
+  .strict();
 
 export const userUpdateInfoZ = z
   .object({
-    avatarId: z.string(),
+    avatarId: z.string().optional(),
+    role:z.string().optional()
   })
-  .required({ avatarId: true });
+  .strict();
+
 
 export const createAvatarZ = z
   .object({
     img: z.string(),
     title: z.string(),
   })
-  .required({
-    img: true,
-    title: true,
-  });
+  .strict();

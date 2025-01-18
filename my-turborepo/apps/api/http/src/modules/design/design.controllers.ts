@@ -1,7 +1,7 @@
 import { responsePayloadI } from "@repo/shared-constants/dist/interface";
-import { createAvatarZ } from "@repo/zod-schema";
+import { createAvatarZ } from "@repo/zod-schema/dist";
 import { RequestHandler, Request, Response, NextFunction } from "express";
-import { createAvatar } from "./design.services";
+import { createAvatar } from "./design.services.js";
 
 export const createAvatarHandler: RequestHandler = async (
   req: Request,
