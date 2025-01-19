@@ -2,12 +2,14 @@ import {
   userSignInZ,
   userSignUpZ,
   userUpdateInfoZ,
-} from "@repo/zod-schema/dist";
+} from "@repo/zod-schema/dist/zod-schema/src/index.js";
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import {
   createUser,
+  doesAvatarExist,
   doesUserFieldAlreadyExist,
   doesUserLoginMatch,
+  getAllUserDetails,
   updateUserDetails,
 } from "./user.services.js";
 import { userSignUpTI } from "./user.types";
@@ -76,7 +78,6 @@ export const userSignUp: RequestHandler = async (
       {
         uuid: createdUserData.uuid,
         userName: createdUserData.userName,
-        role: createdUserData.role,
       },
       JWT_SECRET_KEY,
     );
@@ -135,7 +136,7 @@ export const userSignIn: RequestHandler = async (
     }
     console.log("Credential matches");
 
-    if (!result?.user?.userName || !result?.user?.role) {
+    if (!result?.user?.userName) {
       throw new Error();
     }
 
@@ -143,7 +144,6 @@ export const userSignIn: RequestHandler = async (
       {
         uuid: result.user.uuid,
         userName: result.user.userName,
-        role: result.user.role,
       },
       JWT_SECRET_KEY,
     );
@@ -164,7 +164,7 @@ export const userSignIn: RequestHandler = async (
 
 /**
  *
- * @param req - body {userUpdateInfoZ} , headers { decoded token information [uuid, userName, Role] }
+ * @param req - body {userUpdateInfoZ} , headers { decoded token information [uuid, userName] }
  * @param res - responsePayloadI
  * @param next
  * @returns
@@ -191,15 +191,24 @@ export const updateUserInfoHandler: RequestHandler = async (
 
     console.info("Request payload schema safe-parsed successfully");
 
-    const avatarId = safeParsedBody.data.avatarId;
     const uuid = req.headers.uuid as string;
-
-    console.log("Requested changes are :", avatarId);
     console.log("UserId is", uuid);
 
-    if (uuid && avatarId) {
-      await updateUserDetails(uuid, { ...safeParsedBody });
+    if (safeParsedBody.data.avatarId) {
+      const isExist = await doesAvatarExist(safeParsedBody.data.avatarId);
+      if (!isExist) {
+        responsePayload = { status: "error", message: "Bad Request" };
+        return res.status(400).json(responsePayload);
+      }
+    }
+    console.log("safeParsedBody", safeParsedBody);
+
+    if (uuid) {
+      await updateUserDetails(uuid, { ...safeParsedBody.data });
+      responsePayload = { status: "success", message: "Successfully updated" };
+      return res.status(200).json(responsePayload);
     } else {
+      console.log("failed to update");
       throw {};
     }
   } catch {
@@ -223,10 +232,24 @@ export const getUserInfo: RequestHandler = async (
   console.info("getUserInfo Request Incoming.....");
   let responsePayload: responsePayloadI;
 
-  // try{
+  try {
+    console.log("request is", req.body);
+    console.log("user is ", req.headers.uuid);
 
-  // }catch{
-  //     console.log("inside catch")
-  //     res.status(500).send();
-  // }
+    const uuid: string = req.headers.uuid as string;
+    const response = await getAllUserDetails(uuid);
+
+    console.log("response", response);
+    responsePayload = {
+      status: "success",
+      message: "Successfully fetched user details",
+      data: { ...response },
+    };
+
+    console.log(responsePayload);
+    return res.status(200).json(responsePayload);
+  } catch {
+    console.log("inside catch");
+    return res.status(500).send();
+  }
 };

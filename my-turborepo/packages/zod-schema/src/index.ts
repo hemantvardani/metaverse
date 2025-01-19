@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { userLoginPassword } from "@repo/shared-constants/dist/regex";
-// import {ERole} from '../../shared-constants/src/enum';
+import { ERole } from "../../shared-constants/src/enum.js";
 
 export const userSignUpZ = z
   .object({
@@ -10,12 +10,11 @@ export const userSignUpZ = z
     password: z
       .string()
       .nonempty()
-      .min(8, { message: "Password should be of atleast 8 length." })
+      .min(8, { message: "Password should be of at least 8 length." })
       .regex(userLoginPassword, {
         message:
-          "Password should have atleast 1 upper case and 1 lower case letter. Also, 1 special and 1 number.",
+          "Password should have at least 1 upper case and 1 lower case letter. Also, 1 special and 1 number.",
       }),
-    // role : z.nativeEnum(ERole).optional()
   })
   .strict();
 
@@ -28,15 +27,14 @@ export const userSignInZ = z
 
 export const userUpdateInfoZ = z
   .object({
-    avatarId: z.string().optional(),
-    role:z.string().optional()
+    avatarId: z.string().nonempty().optional(),
+    role: z.nativeEnum(ERole).optional(),
   })
   .strict();
 
-
 export const createAvatarZ = z
   .object({
-    img: z.string(),
-    title: z.string(),
+    img: z.string().nonempty(),
+    title: z.string().nonempty(),
   })
   .strict();

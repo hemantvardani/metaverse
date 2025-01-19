@@ -11,6 +11,11 @@ const failTheTest = () => {
   expect(true).toBe(false);
 };
 
+test("identity test", ()=>{
+  expect(true).toBe(true)
+})
+
+
 // describe("Authentication - Sign Up", () => {
 //   test("any field empty", async () => {
 //     let fields = {

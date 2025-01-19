@@ -15,8 +15,7 @@ router.post("/signup", userSignUp);
 // for user signin - jest tests done
 router.post("/signin", userSignIn);
 
-
-// updating user fields, like avatar
+// updating user fields, like avatar - jest tests done
 router.patch("/", authenticated, updateUserInfoHandler);
 
 // get all information about user

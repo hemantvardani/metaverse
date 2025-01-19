@@ -5,7 +5,7 @@ import { getAllAvatarsList } from "./avatar.services.js";
 /**
  *
  * @param req
- * @param res
+ * @param res data{ avatars }
  * @param next
  */
 export const fetchAvatarListHandler: RequestHandler = async (

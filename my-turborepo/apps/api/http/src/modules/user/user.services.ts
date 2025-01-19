@@ -65,7 +65,30 @@ export const updateUserDetails = async (
   uuid: string,
   data: any,
 ): Promise<void> => {
+  console.log("inside updateUserDetails", uuid, data);
   const PrismaClient = getPrismaClient();
 
-  PrismaClient.user.update({ where: { uuid }, data });
+  const user = await PrismaClient.user.update({ where: { uuid }, data });
+  console.log("updatedUser details ", user);
+};
+
+export const doesAvatarExist = async (uuid: string): Promise<Boolean> => {
+  try {
+    const PrismaClient = getPrismaClient();
+
+    await PrismaClient.avatar.findFirstOrThrow({ where: { uuid } });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const getAllUserDetails = async (uuid: string): Promise<any> => {
+  console.log("inside getAllUserDetails", uuid);
+  const PrismaClient = getPrismaClient();
+
+  let res: any = await PrismaClient.user.findFirstOrThrow({ where: { uuid } });
+  delete res.password;
+  console.log("user details", res);
+  return res;
 };

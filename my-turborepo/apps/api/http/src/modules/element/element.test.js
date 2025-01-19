@@ -8,6 +8,10 @@ const failTheTest = () => {
   expect(true).toBe(false);
 };
 
+test("identity test", ()=>{
+  expect(true).toBe(true)
+})
+
 // describe("Create Elements with Admin", () => {
 //   let adminToken;
 //   let userToken;

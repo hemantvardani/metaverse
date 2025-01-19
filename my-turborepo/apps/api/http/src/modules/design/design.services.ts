@@ -13,7 +13,7 @@ export const createAvatar = async (data: createAvatarTI): Promise<outputI> => {
 
     const createdAvatar: any = await PrismaClient.avatar.create({ data });
     console.log("createdAvatar response", createdAvatar);
-    return { isSuccess: true, data: { createdAvatar } };
+    return { isSuccess: true, data: { uuid: createdAvatar.uuid } };
   } catch (err: any) {
     return { isSuccess: false };
   }

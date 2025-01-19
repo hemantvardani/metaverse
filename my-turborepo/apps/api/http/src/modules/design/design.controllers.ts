@@ -1,5 +1,5 @@
 import { responsePayloadI } from "@repo/shared-constants/dist/interface";
-import { createAvatarZ } from "@repo/zod-schema/dist";
+import { createAvatarZ } from "@repo/zod-schema/dist/zod-schema/src/index.js";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { createAvatar } from "./design.services.js";
 
@@ -37,7 +37,7 @@ export const createAvatarHandler: RequestHandler = async (
     responsePayload = {
       status: "success",
       message: "Avatar created successfully",
-      data: { ...data.createdAvatar },
+      data: { ...data },
     };
     return res.status(200).json(responsePayload);
   } catch (err) {

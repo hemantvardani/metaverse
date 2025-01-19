@@ -13,7 +13,7 @@
     "typescript": "^5.7.2"
   },
   "exports": {
-    "./dist/enum": "./dist/enum.js",
+    "./dist/enum.js": "./dist/enum.js",
     "./dist/interface": "./dist/interface.js/",
     "./dist/regex": "./dist/regex.js"
   }

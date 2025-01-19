@@ -8,5 +8,5 @@ router.post("/map", (req: Request, res: Response) => {});
 //create a new element by admin
 router.post("/element", (req: Request, res: Response) => {});
 
-//create a new avatar by admin
+//create a new avatar by admin - jest test done
 router.post("/avatar", createAvatarHandler);

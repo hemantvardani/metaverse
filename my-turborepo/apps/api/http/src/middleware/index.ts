@@ -1,6 +1,6 @@
 import { getPrismaClient } from "@repo/orm/dist";
 import { responsePayloadI } from "@repo/shared-constants/dist/interface";
-import { ERole } from "@repo/shared-constants/dist/enum";
+import { ERole } from "@repo/shared-constants/dist/enum.js";
 
 import { NextFunction, Response, Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
@@ -21,6 +21,7 @@ export const authorizeAdmin = async (
   next: NextFunction,
 ): Promise<any> => {
   try {
+    console.log("inside authorizeAdmin middleware");
     const headers = req.headers;
     const authToken: boolean = Boolean(
       headers?.authorization?.startsWith("Bearer "),
@@ -35,12 +36,9 @@ export const authorizeAdmin = async (
         JWT_SECRET_KEY,
       ) as JwtPayload;
 
-      if (decodedInfo.role != ERole.ADMIN) {
-        responsePayload = { status: "error", message: "User not authorized" };
-        return res.status(403).json(responsePayload);
-      }
-
       const prismaClient = getPrismaClient();
+
+      console.log("querying uuid", decodedInfo.uuid);
 
       const user = await prismaClient.user.findFirst({
         where: { uuid: decodedInfo.uuid },
@@ -52,6 +50,7 @@ export const authorizeAdmin = async (
 
       if (user.role != ERole.ADMIN) {
         responsePayload = { status: "error", message: "User not authorized" };
+        console.log("user.role != ERole.ADMIN");
         return res.status(403).json(responsePayload);
       }
 
@@ -60,6 +59,7 @@ export const authorizeAdmin = async (
       next();
     } else {
       responsePayload = { status: "error", message: "User unauthenticated" };
+      console.log("User unauthenticated");
       return res.status(401).json(responsePayload);
     }
   } catch {
@@ -80,6 +80,8 @@ export const authenticated = async (
   next: NextFunction,
 ): Promise<any> => {
   try {
+    console.log("inside authenticated middleware");
+
     const headers = req.headers;
     const authToken: boolean = Boolean(
       headers?.authorization?.startsWith("Bearer "),
@@ -93,6 +95,7 @@ export const authenticated = async (
       ) as JwtPayload;
       const prismaClient = getPrismaClient();
 
+      console.log("querying uuid ", decodedInfo.uuid);
       await prismaClient.user.findFirstOrThrow({
         where: { uuid: decodedInfo.uuid },
       });
@@ -102,6 +105,7 @@ export const authenticated = async (
       next();
     } else {
       responsePayload = { status: "error", message: "User unauthenticated" };
+      console.log("User unauthenticated");
       return res.status(401).json(responsePayload);
     }
   } catch {

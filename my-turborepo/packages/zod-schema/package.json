@@ -15,7 +15,7 @@
     "@repo/shared-constants": "*"
   },
   "exports":{
-    "./dist":"./dist/index.js"
+    "./dist/zod-schema/src/index.js":"./dist/zod-schema/src/index.js"
   },
   "main": "./dist/index.cjs",          
   "module": "./dist/index.js",          

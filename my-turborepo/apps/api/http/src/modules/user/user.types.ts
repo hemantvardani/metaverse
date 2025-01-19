@@ -3,7 +3,7 @@ import {
   userSignInZ,
   userSignUpZ,
   userUpdateInfoZ,
-} from "@repo/zod-schema/dist";
+} from "@repo/zod-schema/dist/zod-schema/src/index.js";
 import { z } from "zod";
 
 export type userSignUpTI = z.infer<typeof userSignUpZ>;

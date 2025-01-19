@@ -10,7 +10,9 @@ console.log("BACKEND_URL",BACKEND_URL)
 const failTheTest=()=>{
   expect(true).toBe(false)
 }
-
+test("identity test", ()=>{
+  expect(true).toBe(true)
+})
 
 // describe("Authentication - Sign Up", () => {
 //   test("any field empty", async () => {
@@ -27,7 +29,7 @@ const failTheTest=()=>{
 
 //       console.log("Testing when payload is ", fieldsTemp);
 //       try{
-
+        
 //         await axios.post(
 //           `${BACKEND_URL}/api/v1/user/signup`,
 //           fieldsTemp

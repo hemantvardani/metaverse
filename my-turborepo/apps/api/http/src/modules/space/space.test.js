@@ -7,6 +7,10 @@ console.log("BACKEND_URL", BACKEND_URL);
 const failTheTest = () => {
   expect(true).toBe(false);
 };
+test("identity test", ()=>{
+  expect(true).toBe(true)
+})
+
 
 // describe("create a Space", () => {
 //   let adminToken;
