@@ -23,9 +23,9 @@ export const fetchAvatarListHandler: RequestHandler = async (
       message: "Avatars list successfully fetched",
       data: { avatars: availableAvatars },
     };
-    res.status(200).json(responsePayload);
+    return res.status(200).json(responsePayload);
   } catch {
     console.log("inside catch");
-    res.status(500).send();
+    return res.status(500).send();
   }
 };

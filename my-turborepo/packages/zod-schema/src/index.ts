@@ -38,3 +38,13 @@ export const createAvatarZ = z
     title: z.string().nonempty(),
   })
   .strict();
+
+export const createElementZ = z
+  .object({
+    title: z.string().nonempty(),
+    width: z.number().min(1),
+    height: z.number().min(1),
+    overridable: z.boolean().optional(),
+    img: z.string().nonempty(),
+  })
+  .strict();

@@ -62,7 +62,7 @@ model Element {
   title String
   width Int
   height Int
-  static Boolean @default(true)
+  overridable Boolean @default(false) // whether can be overlapped
   img String
   // elementSpaceMap ElementSpaceMapping[]
   // elementMapMap ElementMapMapping[]
