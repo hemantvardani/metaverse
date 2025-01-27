@@ -1,2 +1,2 @@
 # Metavere
-Inspired by Metaverse website, where multiple users come along and enjoy using their digital avatars!!!
+Inspired by Metaverse websites, where multiple users come along and enjoy using their digital avatars!!!
