@@ -24,13 +24,13 @@ export const authorizeAdmin = async (
     console.log("inside authorizeAdmin middleware");
     const headers = req.headers;
     const authToken: boolean = Boolean(
-      headers?.authorization?.startsWith("Bearer "),
+      req.cookies?.token
     );
 
     let responsePayload: responsePayloadI;
 
     if (authToken) {
-      const token = headers.authorization?.split(" ")[1] ?? "";
+      const token = req.cookies?.token ?? "";
       const decodedInfo: JwtPayload = verify(
         token,
         JWT_SECRET_KEY,
@@ -84,11 +84,11 @@ export const authenticated = async (
 
     const headers = req.headers;
     const authToken: boolean = Boolean(
-      headers?.authorization?.startsWith("Bearer "),
+      req.cookies?.token,
     );
     let responsePayload: responsePayloadI;
     if (authToken) {
-      const token = headers.authorization?.split(" ")[1] ?? "";
+      const token = req.cookies?.token ?? "";
       const decodedInfo: JwtPayload = verify(
         token,
         JWT_SECRET_KEY,

@@ -34,7 +34,6 @@ export const userSignUp: RequestHandler = async (
 
   try {
     const body = req.body;
-    const headers = req.headers;
 
     // some field missing or empty fields
     const safeParsedResult = userSignUpZ.safeParse(body);
@@ -44,7 +43,7 @@ export const userSignUp: RequestHandler = async (
       responsePayload = {
         status: "error",
         message: "Invalid request",
-        error: { details: [safeParsedResult.error] },
+        error: { message: safeParsedResult.error?.issues[0]?.message },
       };
       return res.status(400).json(responsePayload);
     }
@@ -82,10 +81,10 @@ export const userSignUp: RequestHandler = async (
       JWT_SECRET_KEY,
     );
 
+    res.cookie("token", token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
     responsePayload = {
       status: "success",
-      message: "Sign up successful",
-      data: { token },
+      message: "Sign up successful"
     };
     return res.status(200).json(responsePayload);
   } catch (err) {
@@ -118,10 +117,11 @@ export const userSignIn: RequestHandler = async (
       responsePayload = {
         status: "error",
         message: "Invalid request",
-        error: { details: [safeParsed.error] },
+        error: { message: safeParsed.error?.issues[0]?.message},
       };
       return res.status(400).json(responsePayload);
     }
+
     console.info("Request payload schema safe-parsed successfully");
     console.log("user is :", safeParsed.data.userName);
 
@@ -149,10 +149,10 @@ export const userSignIn: RequestHandler = async (
     );
     responsePayload = {
       status: "success",
-      message: "Sign-in successful",
-      data: { token },
+      message: "Sign-in successful"
     };
 
+    res.cookie("token", token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
     return res.status(200).json(responsePayload);
   } catch (err) {
     console.log("inside catch");
@@ -184,7 +184,7 @@ export const updateUserInfoHandler: RequestHandler = async (
       responsePayload = {
         status: "error",
         message: "Invalid request",
-        error: { details: [safeParsedBody.error] },
+        error: { message: safeParsedBody.error?.issues[0]?.message },
       };
       return res.status(400).json(responsePayload);
     }

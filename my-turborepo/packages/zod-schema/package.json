@@ -15,7 +15,18 @@
     "@repo/shared-constants": "*"
   },
   "exports":{
-    "./dist/zod-schema/src/index.js":"./dist/zod-schema/src/index.js"
+    "./dist/zod-schema/src/index":{
+      "types": "./dist/zod-schema/src/index.d.ts",
+      "import": "./dist/zod-schema/src/index.js",
+      "require": "./dist/zod-schema/src/index.js",
+      "default": "./dist/zod-schema/src/index.js"
+    },
+    "./dist/zod-schema/src/index.js":{
+      "types": "./dist/zod-schema/src/index.d.ts",
+      "import": "./dist/zod-schema/src/index.js",
+      "require": "./dist/zod-schema/src/index.js",
+      "default": "./dist/zod-schema/src/index.js"
+    }
   },
   "main": "./dist/index.cjs",          
   "module": "./dist/index.js",          
