@@ -55,7 +55,7 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
   test("create element- Forbidden", async () => {
     let createElementPayload = {
       title: "E" + Math.ceil(Math.random() * 100),
-      img: "sde",
+      image: "sde",
       width: 3,
       height: 1
     };
@@ -76,7 +76,7 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
     try{ 
       res = await axios.post(
         `${BACKEND_URL}/api/v1/design/element`,
-        {...createElementPayload,overridable: true,},
+        {...createElementPayload,isWalkable: true,},
         { headers: { authorization: `Bearer ${userToken}` } }
       );
       failTheTest();
@@ -92,7 +92,7 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
   test("create element- unauthorized", async () => {
     const createElementPayload = {
       title: "E" + Math.ceil(Math.random() * 100),
-      img: "sde",
+      image: "sde",
       width: 3,
       height: 1
     };
@@ -114,7 +114,7 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
     try{ 
       res = await axios.post(
         `${BACKEND_URL}/api/v1/design/element`,
-        {...createElementPayload,overridable: true,},
+        {...createElementPayload,isWalkable: true,},
       );
       failTheTest();
 
@@ -130,7 +130,7 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
   test("create element- blank fields", async () => {
     let createElementPayload = {
       title: "E" + Math.ceil(Math.random() * 100),
-      img: "sde",
+      image: "sde",
       width: 3,
       height: 1
     };
@@ -176,10 +176,10 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
 
     createElementPayload = {
       title: "E" + Math.ceil(Math.random() * 100),
-      img: "sde",
+      image: "sde",
       width: 3,
       height: 1,
-      overridable: true,
+      isWalkable: true,
     };
 
     Object.keys(createElementPayload).forEach(async (key) => {
@@ -225,7 +225,7 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
     beforeAll(async()=>{
       let createElementPayload = {
         title: "E" + Math.ceil(Math.random() * 100),
-        img: "sde",
+        image: "sde",
         width: 3,
         height: 1
       };
@@ -243,10 +243,10 @@ describe("Create Elements with Admin -> Get list of all Elements", () => {
   
       createElementPayload = {
         title: "E" + Math.ceil(Math.random() * 100),
-        img: "sde",
+        image: "sde",
         width: 3,
         height: 1,
-        overridable:true
+        isWalkable:true
       };
   
       res = await axios.post(

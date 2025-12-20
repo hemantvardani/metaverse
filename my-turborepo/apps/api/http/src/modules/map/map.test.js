@@ -62,7 +62,7 @@ test("identity test", ()=>{
 
 //       const createElementPayload1 = {
 //         title: "E" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         width: 3,
 //         height: 1,
 //         static: true,
@@ -79,7 +79,7 @@ test("identity test", ()=>{
 
 //       const createElementPayload2 = {
 //         title: "E" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         width: 3,
 //         height: 1,
 //         static: true,
@@ -98,7 +98,7 @@ test("identity test", ()=>{
 //     test("create Map - Forbidden", async () => {
 //       const createMapPayload = {
 //         title: "M" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         description: "xyz",
 //         width: 100,
 //         height: 100,
@@ -131,7 +131,7 @@ test("identity test", ()=>{
 //     test("create Map- unauthorized", async () => {
 //       const createMapPayload = {
 //         title: "M" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         description: "xyz",
 //         width: 100,
 //         height: 100,
@@ -164,7 +164,7 @@ test("identity test", ()=>{
 //     test("create Map- blank fields", async () => {
 //       const createMapPayload = {
 //         title: "M" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         description: "xyz",
 //         width: 100,
 //         height: 100,
@@ -201,7 +201,7 @@ test("identity test", ()=>{
 //     test("create Map- All Favorable", async () => {
 //       const createMapPayload = {
 //         title: "M" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         description: "xyz",
 //         width: 100,
 //         height: 100,

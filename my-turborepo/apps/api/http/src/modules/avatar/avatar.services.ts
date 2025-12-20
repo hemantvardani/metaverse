@@ -7,7 +7,7 @@ interface outputI {
 
 /**
  *
- * @returns list of available avatars - array of {uuid, img, title}
+ * @returns list of available avatars - array of {uuid, image, title}
  */
 export const getAllAvatarsList = async (): Promise<any> => {
   console.log("inside getAllAvatarsList...");
@@ -15,7 +15,7 @@ export const getAllAvatarsList = async (): Promise<any> => {
 
   const avatars = await PrismaClient.avatar.findMany({
     where: {},
-    select: { uuid: true, img: true, title: true },
+    select: { uuid: true, image: true, title: true },
   });
   console.log("avatars list is:", avatars);
 

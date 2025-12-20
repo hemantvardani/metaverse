@@ -2,11 +2,12 @@ import { Request, Response, Router } from "express";
 import {
   createAvatarHandler,
   createElementHandler,
+  createMapHandler,
 } from "./design.controllers.js";
 export const router = Router();
 
 //create a new map by admin
-router.post("/map", (req: Request, res: Response) => {});
+router.post("/map", createMapHandler);
 
 //create a new element by admin - jest test done
 router.post("/element", createElementHandler);

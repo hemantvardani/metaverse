@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Pixi Building Test</title>
+    <style>
+      body {
+        margin: 0;
+        background: #2c2c2c;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.min.js"></script>
+    <script>
+      const app = new PIXI.Application({
+        width: 800,
+        height: 600,
+        // backgroundColor: 0x2c2c2c,
+        antialias: true
+      });
+
+      document.body.appendChild(app.view);
+
+      // ---- BUILDING CONTAINER ----
+      const building = new PIXI.Container();
+      building.sortableChildren = true;
+      building.x = 0;
+      building.y = 0;
+      app.stage.addChild(building);
+
+      // ---- LOAD SPRITES ----
+      const base = PIXI.Sprite.from("./base.png");
+      const roof = PIXI.Sprite.from("./roof.png");
+
+      // 🔑 bottom-center anchor
+      base.anchor.set(0, 0);
+      roof.anchor.set(0, 0);
+
+      // same origin
+      base.position.set(0, 0);
+      roof.position.set(0, 0);
+
+      // draw order
+      base.zIndex = 0;
+      roof.zIndex = 1;
+
+      // fine-tune roof height (normal!)
+    //   roof.y -= 4;
+
+      building.addChild(base);
+      building.addChild(roof);
+
+      // ---- DEBUG ANCHOR DOT ----
+      const dot = new PIXI.Graphics();
+      dot.beginFill(0xff0000);
+      dot.drawCircle(0, 0, 4);
+      dot.endFill();
+      building.addChild(dot);
+    </script>
+  </body>
+</html>

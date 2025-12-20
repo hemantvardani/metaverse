@@ -4,8 +4,6 @@ import { ERole } from "../../shared-constants/src/enum.js";
 
 export const userSignUpZ = z
   .object({
-    firstName: z.string().nonempty(),
-    lastName: z.string().nonempty(),
     userName: z.string().nonempty(),
     password: z
       .string()
@@ -34,7 +32,7 @@ export const userUpdateInfoZ = z
 
 export const createAvatarZ = z
   .object({
-    img: z.string().nonempty(),
+    image: z.string().nonempty(),
     title: z.string().nonempty(),
   })
   .strict();
@@ -44,7 +42,17 @@ export const createElementZ = z
     title: z.string().nonempty(),
     width: z.number().min(1),
     height: z.number().min(1),
-    overridable: z.boolean().optional(),
-    img: z.string().nonempty(),
+    isWalkable: z.boolean().optional(),
+    image: z.string().nonempty(),
   })
   .strict();
+
+export const createMapZ = z
+.object({
+  title : z.string().nonempty(),
+  description : z.string(),
+  image : z.string().nonempty(),
+  height : z.number(),
+  width : z.number()
+})
+.strict();

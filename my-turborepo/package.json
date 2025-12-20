@@ -6,7 +6,10 @@
     "start":"turbo dev",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prisma:migrate:dev": "cd packages/orm && npx prisma migrate dev",
+    "prisma:generate:dev": "cd packages/orm && npx prisma generate"
+
   },
   "devDependencies": {
     "prettier": "^3.2.5",

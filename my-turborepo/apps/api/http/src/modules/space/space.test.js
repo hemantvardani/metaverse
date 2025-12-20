@@ -68,7 +68,7 @@ test("identity test", ()=>{
 
 //       const createElementPayload1 = {
 //         title: "E" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         width: 3,
 //         height: 1,
 //         static: true,
@@ -85,7 +85,7 @@ test("identity test", ()=>{
 
 //       const createElementPayload2 = {
 //         title: "E" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         width: 3,
 //         height: 1,
 //         static: true,
@@ -102,7 +102,7 @@ test("identity test", ()=>{
 
 //       const createMapPayload = {
 //         title: "M" + Math.ceil(Math.random() * 100),
-//         img: "sde",
+//         image: "sde",
 //         description: "xyz",
 //         width: 100,
 //         height: 100,

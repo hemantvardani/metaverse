@@ -1,5 +1,5 @@
 import { getPrismaClient } from "@repo/orm/dist";
-import { createAvatarTI, createElementTI } from "./design.types";
+import { createAvatarTI, createElementTI, createMapTI } from "./design.types";
 
 interface outputI {
   isSuccess: boolean;
@@ -33,3 +33,17 @@ export const createElement = async (
     return { isSuccess: false };
   }
 };
+
+export const createMap = async (data: createMapTI):Promise<outputI> => 
+{
+  console.log("inside createMap...");
+  try{
+    const PrismaClient = getPrismaClient();
+    const createdMap = await PrismaClient.map.create({data})
+    console.log("createMap response", createdMap);
+
+    return {isSuccess:true, data: createdMap}
+  }catch{
+    return {isSuccess: false}
+  }
+}

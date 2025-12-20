@@ -40,7 +40,7 @@ test("identity test", ()=>{
 //   test("create a avatar - fields empty", async () => {
 //     let fields = {
 //       title: "hemant" + Math.round(Math.random() * 1000),
-//       img: "url",
+//       image: "url",
 //     };
 //     for (const key of Object.keys(fields)) {
 //       let res;
@@ -63,7 +63,7 @@ test("identity test", ()=>{
 //   test("create a avatar - unauthorized", async () => {
 //     let fields = {
 //       title: "hemant" + Math.round(Math.random() * 1000),
-//       img: "url",
+//       image: "url",
 //     };
 //     let res
 //     try{
@@ -81,7 +81,7 @@ test("identity test", ()=>{
 
 //       let fields = {
 //         title: "hemant" + Math.round(Math.random() * 1000),
-//         img: "url",
+//         image: "url",
 //       };
 //       const res = await axios.post(`${BACKEND_URL}/api/v1/design/avatar`, fields, {
 //         headers: { authorization: `Bearer ${token}` },

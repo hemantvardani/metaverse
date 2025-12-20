@@ -9,106 +9,106 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model User {
-  uuid  String @default(uuid()) @unique
-  firstName String
-  lastName String
+  uuid  String @id @default(uuid())
   password String @default("")
   userName String @unique
   role Role @default(PLAYER)
+
   spaces Space[]
+
   avatarId String?
   avatar Avatar? @relation(fields: [avatarId],references: [uuid])
-}
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 model Map {
-  uuid String @default(uuid()) @unique
+  uuid String @default(uuid()) @id
   title String 
   description String
-  img String
-  height Int @default(100)
-  width Int @default(100)
+  image String
+  height Int
+  width Int
+
   spaces Space[]
-  defaultElementsMapping ElementMapping[]
-   
+  elements MapElement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
-// model ElementMapMapping {
-//   uuid String @default(uuid()) @unique
-//   mapId String
-//   map Map @relation(fields: [mapId], references: [uuid])
-//   x String
-//   y String
-//   title String
-//   elementId String
-//   element Element @relation(fields: [elementId], references: [uuid])
-
-// }
-
 model Space {
-  uuid String @default(uuid()) @unique
+  uuid String @default(uuid()) @id
   title String
+
   mapId String
   map Map @relation(fields: [mapId], references: [uuid])
+
   userId String
   user User @relation(fields: [userId], references: [uuid])
-  // spaceElementMap ElementSpaceMapping[]
-  elementsMapping ElementMapping[]
-}
 
+  elements SpaceElement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 model Element {
-  uuid String @default(uuid()) @unique
+  uuid String @default(uuid()) @id
   title String
-  width Int
-  height Int
-  overridable Boolean @default(false) // whether can be overlapped
-  img String
-  // elementSpaceMap ElementSpaceMapping[]
-  // elementMapMap ElementMapMapping[]
-  elementMapping ElementMapping[]
+  isWalkable Boolean @default(false) // whether can be overlapped
+  image String
+
+  MapElements MapElement[]
+  SpaceElements SpaceElement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-// model ElementSpaceMapping {
-//   uuid String @default(uuid()) @unique
-//   elementId String
-//   element Element @relation(fields: [elementId], references: [uuid])
-//   x String
-//   y String
-//   spaceId String
-//   space Space @relation(fields: [spaceId], references: [uuid])
-// }
+model MapElement {
+  uuid String @id @default(uuid())
+  x Int
+  y Int
 
-model ElementMapping {
-  uuid String @default(uuid()) @unique
-  x String
-  y String
   elementId String
-  element Element @relation(fields: [elementId],references: [uuid])
-  layoutMapId String
-  layoutSpaceId String
-  layout Layout
-  layoutMapRef Space @relation(fields: [layoutMapId], references: [uuid])
-  layoutSpaceRef Map @relation(fields: [layoutSpaceId], references: [uuid])
+  element Element @relation(fields: [elementId], references: [uuid])
 
+  mapId String
+  map Map @relation(fields: [mapId], references: [uuid])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SpaceElement {
+  uuid String @id @default(uuid())
+  x Int
+  y Int
+
+  elementId String
+  element Element @relation(fields: [elementId], references: [uuid])
+
+  spaceId String
+  space Space @relation(fields: [spaceId], references: [uuid])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Avatar {
-  uuid String @default(uuid()) @unique
+  uuid String @default(uuid()) @id
   title String
-  img String
+  image String
+
   user User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
   
 enum Role {
   PLAYER
   ADMIN
-}
-
-enum Layout {
-  SPACE
-  MAP
 }
 
 // remaining Task here

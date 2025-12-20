@@ -7,7 +7,7 @@ interface outputI {
 
 /**
  *
- * @returns list of available elements - array of {uuid, img, title, width , height, overriddalble}
+ * @returns list of available elements - array of {uuid, image, title, width , height, overriddalble}
  */
 export const getAllElementsList = async (): Promise<any> => {
   console.log("inside getAllElementsList...");
@@ -17,11 +17,11 @@ export const getAllElementsList = async (): Promise<any> => {
     where: {},
     select: {
       uuid: true,
-      img: true,
+      image: true,
       title: true,
       height: true,
       width: true,
-      overridable: true,
+      isWalkable: true,
     },
   });
   console.log("elements list is:", elements);
