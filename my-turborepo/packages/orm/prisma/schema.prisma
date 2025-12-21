@@ -30,6 +30,7 @@ model Map {
   image String
   height Int
   width Int
+  live Boolean @default(false)
 
   spaces Space[]
   elements MapElement[]

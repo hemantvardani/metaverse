@@ -3,7 +3,7 @@ import { Router } from "express";
 export const router = Router();
 
 // get all spaces
-router.get("/", (req, res) => {});
+router.get("/", );
 
 // delete my space
 router.delete("/:spaceId", (req, res) => {});

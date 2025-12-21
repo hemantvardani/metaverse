@@ -8,9 +8,11 @@ import pkg from "jsonwebtoken";
 const { verify } = pkg;
 import { JWT_SECRET_KEY } from "../constants/index.constants.js";
 
+type UserJwtPayload = JwtPayload & {uuid: string} ;
+
 /**
  *
- * @param req - headers {authorization:`Bearer ${token}`}
+ * @param req  
  * @param res
  * @param next
  * @returns
@@ -22,7 +24,7 @@ export const authorizeAdmin = async (
 ): Promise<any> => {
   try {
     console.log("inside authorizeAdmin middleware");
-    const headers = req.headers;
+
     const authToken: boolean = Boolean(
       req.cookies?.token
     );
@@ -31,10 +33,10 @@ export const authorizeAdmin = async (
 
     if (authToken) {
       const token = req.cookies?.token ?? "";
-      const decodedInfo: JwtPayload = verify(
+      const decodedInfo: UserJwtPayload  = verify(
         token,
         JWT_SECRET_KEY,
-      ) as JwtPayload;
+      ) as UserJwtPayload ;
 
       const prismaClient = getPrismaClient();
 
@@ -54,7 +56,7 @@ export const authorizeAdmin = async (
         return res.status(403).json(responsePayload);
       }
 
-      req.headers = { ...req.headers, ...decodedInfo };
+      req.user = decodedInfo as UserJwtPayload;
 
       next();
     } else {
@@ -69,7 +71,7 @@ export const authorizeAdmin = async (
 
 /**
  *
- * @param req - headers {authorization:`Bearer ${token}`}
+ * @param req  
  * @param res
  * @param next
  * @returns
@@ -82,17 +84,16 @@ export const authenticated = async (
   try {
     console.log("inside authenticated middleware");
 
-    const headers = req.headers;
     const authToken: boolean = Boolean(
       req.cookies?.token,
     );
     let responsePayload: responsePayloadI;
     if (authToken) {
       const token = req.cookies?.token ?? "";
-      const decodedInfo: JwtPayload = verify(
+      const decodedInfo: UserJwtPayload = verify(
         token,
         JWT_SECRET_KEY,
-      ) as JwtPayload;
+      ) as UserJwtPayload;
       const prismaClient = getPrismaClient();
 
       console.log("querying uuid ", decodedInfo.uuid);
@@ -100,7 +101,7 @@ export const authenticated = async (
         where: { uuid: decodedInfo.uuid },
       });
 
-      req.headers = { ...req.headers, ...decodedInfo };
+      req.user = decodedInfo as UserJwtPayload;
 
       next();
     } else {
