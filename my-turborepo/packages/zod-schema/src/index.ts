@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { userLoginPassword } from "@repo/shared-constants/dist/regex";
+import { userLoginPassword } from "@repo/shared-constants";
 import { ERole } from "../../shared-constants/src/enum.js";
 
 export const userSignUpZ = z

@@ -1,4 +1,4 @@
-import { responsePayloadI } from "@repo/shared-constants/dist/interface.js";
+import { responsePayloadI } from "@repo/shared-constants";
 import { NextFunction, RequestHandler, Request, Response } from "express";
 import { getAllElementsList } from "./element.services.js";
 

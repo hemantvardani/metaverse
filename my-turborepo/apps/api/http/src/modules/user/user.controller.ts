@@ -13,7 +13,7 @@ import {
   updateUserDetails,
 } from "./user.services.js";
 import { userSignUpTI } from "./user.types";
-import { responsePayloadI } from "@repo/shared-constants/dist/interface.js";
+import { responsePayloadI } from "@repo/shared-constants";
 import { JWT_SECRET_KEY } from "../../constants/index.constants.js";
 import pkg from "jsonwebtoken";
 const { sign } = pkg;
@@ -81,7 +81,11 @@ export const userSignUp: RequestHandler = async (
       JWT_SECRET_KEY,
     );
 
-    res.cookie("token", token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie("token", token, 
+      { httpOnly: true,
+        secure: process.env.NODE_ENV==="production",
+        maxAge: 24 * 60 * 60 * 1000
+      });
     responsePayload = {
       status: "success",
       message: "Sign up successful"
@@ -152,7 +156,11 @@ export const userSignIn: RequestHandler = async (
       message: "Sign-in successful"
     };
 
-    res.cookie("token", token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie("token", token, 
+      { httpOnly: true, 
+        secure: process.env.NODE_ENV==="production",
+        maxAge: 24 * 60 * 60 * 1000 
+      });
     return res.status(200).json(responsePayload);
   } catch (err) {
     console.log("inside catch");
@@ -164,7 +172,7 @@ export const userSignIn: RequestHandler = async (
 
 /**
  *
- * @param req - body {userUpdateInfoZ} , headers { decoded token information [uuid, userName] }
+ * @param req - body {userUpdateInfoZ} , { decoded token information [uuid, userName] }
  * @param res - responsePayloadI
  * @param next
  * @returns
@@ -191,7 +199,7 @@ export const updateUserInfoHandler: RequestHandler = async (
 
     console.info("Request payload schema safe-parsed successfully");
 
-    const uuid = req.headers.uuid as string;
+    const uuid = req.user?.uuid;
     console.log("UserId is", uuid);
 
     if (safeParsedBody.data.avatarId) {
@@ -234,16 +242,21 @@ export const getUserInfo: RequestHandler = async (
 
   try {
     console.log("request is", req.body);
-    console.log("user is ", req.headers.uuid);
+    console.log("user is ", req.user?.uuid);
 
-    const uuid: string = req.headers.uuid as string;
+    const uuid = req.user?.uuid;
+    if (!uuid) {
+      responsePayload = { status: "error", message: "Unauthorized" };
+      return res.status(401).json(responsePayload);
+    }
+
     const response = await getAllUserDetails(uuid);
 
     console.log("response", response);
     responsePayload = {
       status: "success",
       message: "Successfully fetched user details",
-      data: { ...response },
+      data: response,
     };
 
     console.log(responsePayload);

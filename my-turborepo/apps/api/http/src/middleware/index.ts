@@ -1,6 +1,5 @@
 import { getPrismaClient } from "@repo/orm/dist";
-import { responsePayloadI } from "@repo/shared-constants/dist/interface";
-import { ERole } from "@repo/shared-constants/dist/enum.js";
+import { responsePayloadI, ERole } from "@repo/shared-constants";
 
 import { NextFunction, Response, Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
@@ -83,7 +82,7 @@ export const authenticated = async (
 ): Promise<any> => {
   try {
     console.log("inside authenticated middleware");
-
+    console.log(req.cookies?.token, req.cookies)
     const authToken: boolean = Boolean(
       req.cookies?.token,
     );

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllMapsHandler } from "./map.controllers";
+import { getAllMapsHandler } from "./map.controllers.js";
 
 export const router = Router();
 

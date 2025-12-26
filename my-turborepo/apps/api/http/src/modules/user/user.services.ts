@@ -1,11 +1,13 @@
 import { getPrismaClient } from "@repo/orm/dist";
 import { userSignInTI, userSignUpTI } from "./user.types";
 import { compare, hash } from "bcrypt";
+import { PublicFieldsUserSelect } from "@repo/shared-constants";
 
 interface outputI {
   isSuccess: boolean;
   data?: any;
 }
+
 
 export const doesUserFieldAlreadyExist = async (
   fieldName: string,
@@ -16,6 +18,9 @@ export const doesUserFieldAlreadyExist = async (
 
   const userRecord = await PrismaClient.user.findFirst({
     where: { [fieldName]: fieldValue },
+    select: {
+      uuid: true,
+    },
   });
   console.log("userRecord found is:", userRecord?.uuid);
 
@@ -30,7 +35,7 @@ export const createUser = async (user: userSignUpTI): Promise<outputI> => {
     //password hashing
     user.password = await hash(user.password, 5);
 
-    const createdUser: any = await PrismaClient.user.create({ data: user });
+    const createdUser: any = await PrismaClient.user.create({ data: user, select: PublicFieldsUserSelect });
     console.log("createdUser response", createdUser);
     return { isSuccess: true, data: { createdUser } };
   } catch (err: any) {
@@ -49,15 +54,16 @@ export const doesUserLoginMatch = async (
   const PrismaClient = getPrismaClient();
 
   const user = await PrismaClient.user.findUnique({
-    select: { password: true, userName: true, role: true },
+    select: { uuid: true, password: true, userName: true, role: true },
     where: { userName: credentials.userName },
   });
 
   let userValid = false;
   if (user) {
     userValid = await compare(credentials.password, user.password);
+    delete (user as any).password;
   }
-
+  
   return { userValid, user: userValid ? user : undefined };
 };
 
@@ -87,8 +93,7 @@ export const getAllUserDetails = async (uuid: string): Promise<any> => {
   console.log("inside getAllUserDetails", uuid);
   const PrismaClient = getPrismaClient();
 
-  let res: any = await PrismaClient.user.findFirstOrThrow({ where: { uuid } });
-  delete res.password;
+  let res: any = await PrismaClient.user.findFirstOrThrow({ where: { uuid }, select: PublicFieldsUserSelect });
   console.log("user details", res);
   return res;
 };

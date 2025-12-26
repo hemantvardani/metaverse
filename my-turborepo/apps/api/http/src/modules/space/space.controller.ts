@@ -1,5 +1,5 @@
 import { getPrismaClient } from "@repo/orm/dist";
-import { responsePayloadI } from "@repo/shared-constants/dist/interface";
+import { responsePayloadI } from "@repo/shared-constants";
 import { Request, Response } from "express";
 
 export const getAllSpacesHandler = async (req: Request, res:Response): Promise<any> =>{
@@ -20,8 +20,17 @@ export const getAllSpacesHandler = async (req: Request, res:Response): Promise<a
         const limit = Number(req.query.limit as string) || 10;
 
         const spaces = await prismaClient.space.findMany({
-            where:{
+            where: {
                 userId: userUuid,
+            },
+            include: {
+                map: {
+                    select: {
+                        uuid: true,
+                        title: true,
+                        image: true,
+                    },
+                },
             },
             take: limit,
             skip: (page - 1) * limit,

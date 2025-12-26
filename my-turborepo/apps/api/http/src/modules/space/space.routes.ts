@@ -1,9 +1,10 @@
 import { Router } from "express";
+import { getAllSpacesHandler } from "./space.controller.js";
 
 export const router = Router();
 
 // get all spaces
-router.get("/", );
+router.get("/", getAllSpacesHandler );
 
 // delete my space
 router.delete("/:spaceId", (req, res) => {});

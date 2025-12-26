@@ -1,4 +1,4 @@
-import { responsePayloadI } from "@repo/shared-constants/dist/interface";
+import { responsePayloadI } from "@repo/shared-constants";
 import { NextFunction, RequestHandler, Request, Response } from "express";
 import { getAllAvatarsList } from "./avatar.services.js";
 

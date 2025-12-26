@@ -11,7 +11,7 @@ import { router as testRouter } from "./modules/testing/test.routes.js";
 export const router = Router();
 
 router.use("/user", userRouter);
-router.use("/map", authenticated, mapRouter);
+router.use("/map", mapRouter);
 router.use("/space", authenticated, spaceRouter);
 router.use("/avatar", authenticated, avatarRouter);
 router.use("/element", authenticated, elementRouter);

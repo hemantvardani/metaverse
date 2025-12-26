@@ -1,4 +1,4 @@
-import { getPrismaClient } from "@repo/orm/dist/index.js";
+import { getPrismaClient } from "@repo/orm/dist";
 import { Request, Response } from "express";
 
 export const getAllMapsHandler = async (req: Request, res: Response): Promise<void> => {

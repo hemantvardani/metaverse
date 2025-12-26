@@ -19,8 +19,6 @@ export const getAllElementsList = async (): Promise<any> => {
       uuid: true,
       image: true,
       title: true,
-      height: true,
-      width: true,
       isWalkable: true,
     },
   });
