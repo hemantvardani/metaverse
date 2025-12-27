@@ -4,6 +4,7 @@ import {
   getUserInfo,
   updateUserInfoHandler,
   userSignIn,
+  userSignOut,
   userSignUp,
 } from "./user.controller.js";
 
@@ -14,6 +15,9 @@ router.post("/signup", userSignUp);
 
 // for user signin - jest tests done
 router.post("/signin", userSignIn);
+
+// for user signout
+router.post("/signout", userSignOut);
 
 // updating user fields, like avatar - jest tests done
 router.patch("/", authenticated, updateUserInfoHandler);

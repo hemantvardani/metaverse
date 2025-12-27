@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import { userSignInZ } from "@repo/zod-schema/dist/zod-schema/src/index.js";
 import { z } from "zod";
 import { api } from "@/lib/api/user";
+import { useAuth } from "@/lib/auth/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,6 +31,7 @@ type LoginFormData = {
 export default function Login() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const { refetch } = useAuth();
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
   
@@ -47,6 +49,9 @@ export default function Login() {
   
       try {
         await api.signIn(data.userName, data.password);
+        
+        // Refresh auth state to get user info
+        await refetch();
         
         // Redirect to previous route or home
         const redirect = searchParams.get("redirect") || "/";

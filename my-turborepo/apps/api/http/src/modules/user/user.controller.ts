@@ -266,3 +266,41 @@ export const getUserInfo: RequestHandler = async (
     return res.status(500).send();
   }
 };
+
+/**
+ *
+ * @param req
+ * @param res - responsePayloadI
+ * @param next
+ * @returns
+ */
+export const userSignOut: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
+  console.info("userSignOut Request Incoming.....");
+  let responsePayload: responsePayloadI;
+
+  try {
+    // Clear the httpOnly cookie by setting it to expire immediately
+    res.cookie("token", "", {
+      httpOnly: true,
+      secure: true,
+      expires: new Date(0), // Expire immediately
+      sameSite: "lax",
+    });
+
+    responsePayload = {
+      status: "success",
+      message: "Signed out successfully",
+    };
+
+    return res.status(200).json(responsePayload);
+  } catch (error) {
+    console.log("inside catch");
+    console.error(error);
+    responsePayload = { status: "error", message: "Something went wrong" };
+    return res.status(500).json(responsePayload);
+  }
+};

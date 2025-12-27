@@ -21,5 +21,17 @@ export const api = {
       method: "GET",
     });
   },
+
+  signOut: async () => {
+    // Clear the httpOnly cookie by calling a signout endpoint
+    // If no endpoint exists, we'll handle it client-side
+    try {
+      await apiRequest("/api/v1/user/signout", {
+        method: "POST",
+      });
+    } catch {
+      // If endpoint doesn't exist, that's okay - cookie will expire
+    }
+  },
 };
 

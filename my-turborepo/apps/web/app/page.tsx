@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { mapApi, Map } from "@/lib/api/map";
 import { spaceApi, Space } from "@/lib/api/space";
-import { api } from "@/lib/api/user";
 import { MapGrid } from "@/components/maps/MapGrid";
 import { SpaceGrid } from "@/components/spaces/SpaceGrid";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { ERole, PublicFieldsUserFromDB } from "@repo/shared-constants";
+import { ERole } from "@repo/shared-constants";
+import { useAuth } from "@/lib/auth/AuthContext";
 
 export default function Home() {
   const router = useRouter();
-  const [user, setUser] = useState<PublicFieldsUserFromDB | null>(null);
+  const { user, loading: authLoading } = useAuth();
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [maps, setMaps] = useState<Map[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,15 +28,6 @@ export default function Home() {
     try {
       setLoading(true);
       setError(null);
-
-      let userData;
-      try{
-        const userResponse = await api.getUserInfo();
-        userData = userResponse.data as PublicFieldsUserFromDB;
-      }catch(err){
-        userData = null;
-      } 
-      setUser(userData);
 
       // Fetch spaces and maps in parallel
       const [spacesData, mapsData] = await Promise.all([
@@ -72,7 +63,7 @@ export default function Home() {
     }
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-4">
