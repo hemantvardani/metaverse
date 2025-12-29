@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { mapApi, Map } from "@/lib/api/map";
 import { spaceApi, Space } from "@/lib/api/space";
 import { MapGrid } from "@/components/maps/MapGrid";
@@ -121,7 +122,7 @@ export default function Home() {
             <h2 className="text-2xl font-semibold">Available Maps</h2>
             {isAdmin && (
               <Button asChild variant="outline">
-                <a href="/admin/maps/create">Create Map</a>
+                <Link href="/admin/maps/create">Create Map</Link>
               </Button>
             )}
           </div>
